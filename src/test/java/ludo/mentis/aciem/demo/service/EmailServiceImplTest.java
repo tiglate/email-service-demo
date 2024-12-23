@@ -64,7 +64,6 @@ class EmailServiceImplTest {
 
     private MessageDTO createMessageDTO() {
         var messageDTO = new MessageDTO();
-        messageDTO.setFrom("sender@example.com");
         messageDTO.setSubject("Test Subject");
         messageDTO.setBody("This is a test email body.");
         messageDTO.setBodyType(BodyType.TEXT);

@@ -2,12 +2,12 @@ package ludo.mentis.aciem.demo.service;
 
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
-import ludo.mentis.aciem.demo.domain.MessageError;
-import ludo.mentis.aciem.demo.domain.MessageLog;
+import ludo.mentis.aciem.demo.domain.*;
 import ludo.mentis.aciem.demo.model.MessageAssembler;
 import ludo.mentis.aciem.demo.model.MessageDTO;
 import ludo.mentis.aciem.demo.repos.MessageRepository;
 import ludo.mentis.aciem.demo.util.LogHelper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +19,9 @@ public class EmailServiceImpl implements EmailService {
     private final MessageRepository repository;
     private final SendMailService sendMailService;
 
+    @Value("${app.email.from}")
+    private String from;
+
     public EmailServiceImpl(MessageRepository repository, SendMailService sendMailService) {
         this.repository = repository;
         this.sendMailService = sendMailService;
@@ -27,9 +30,11 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public boolean send(MessageDTO messageDTO, String senderIp) {
         LogHelper.traceMethodCall(EmailServiceImpl.class, "send", messageDTO, senderIp);
-        logEmailDetails(messageDTO);
 
         var message = MessageAssembler.fromDTO(messageDTO);
+        message.setFrom(from);
+
+        logEmailDetails(message);
 
         try {
             sendMailService.execute(message);
@@ -56,7 +61,14 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    private void logEmailDetails(MessageDTO messageDTO) {
-        log.info("Sending email from {} to {} with subject '{}'", messageDTO.getFrom(), String.join("; ", messageDTO.getRecipientsTo()), messageDTO.getSubject());
+    private void logEmailDetails(Message message) {
+        var recipients = String.join("; ",
+                message.getRecipients()
+                       .stream()
+                       .filter(r -> r.getType() == RecipientType.TO)
+                       .map(Recipient::getEmail)
+                       .toList()
+        );
+        log.info("Sending email from {} to {} with subject '{}'", message.getFrom(), recipients, message.getSubject());
     }
 }

@@ -75,7 +75,6 @@ class EmailControllerTest {
 
     private MessageDTO createInvalidMessageDTO() {
         var messageDTO = new MessageDTO();
-        messageDTO.setFrom("INVALID E-MAIL");
         messageDTO.setSubject(null);
         messageDTO.setBody("This is a test email body.");
         messageDTO.setBodyType(BodyType.TEXT);
@@ -88,7 +87,6 @@ class EmailControllerTest {
 
     private MessageDTO createValidMessageDTO() {
         var messageDTO = new MessageDTO();
-        messageDTO.setFrom("sender@example.com");
         messageDTO.setSubject("Test Subject");
         messageDTO.setBody("This is a test email body.");
         messageDTO.setBodyType(BodyType.TEXT);

@@ -8,14 +8,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MessageAssemblerTest {
+class MessageAssemblerTest {
 
     @Test
     void testFromDTO() {
         // Create a MessageDTO object and set its properties
         var messageDTO = new MessageDTO();
-        messageDTO.setId(1);
-        messageDTO.setFrom("test@example.com");
         messageDTO.setSubject("Test Subject");
         messageDTO.setBody("Test Body");
         messageDTO.setBodyType(BodyType.TEXT);
@@ -26,9 +24,7 @@ public class MessageAssemblerTest {
         messageDTO.setRecipientsBcc(List.of("bcc@example.com"));
 
         // Add attachments
-        var attachmentDTO = new AttachmentDTO();
-        attachmentDTO.setFileName("test.txt");
-        attachmentDTO.setFileType("text/plain");
+        var attachmentDTO = new AttachmentDTO("test.txt", "text/plain", new byte[]{1, 2, 3});
         attachmentDTO.setAttachment(new byte[]{1, 2, 3});
         messageDTO.setAttachments(List.of(attachmentDTO));
 
@@ -36,8 +32,6 @@ public class MessageAssemblerTest {
         var message = MessageAssembler.fromDTO(messageDTO);
 
         // Assert the properties
-        assertEquals(messageDTO.getId(), message.getId());
-        assertEquals(messageDTO.getFrom(), message.getFrom());
         assertEquals(messageDTO.getSubject(), message.getSubject());
         assertEquals(messageDTO.getBody(), message.getBody());
         assertEquals(messageDTO.getBodyType(), message.getBodyType());
@@ -95,8 +89,6 @@ public class MessageAssemblerTest {
         var messageDTO = MessageAssembler.toDTO(message);
 
         // Assert the properties
-        assertEquals(message.getId(), messageDTO.getId());
-        assertEquals(message.getFrom(), messageDTO.getFrom());
         assertEquals(message.getSubject(), messageDTO.getSubject());
         assertEquals(message.getBody(), messageDTO.getBody());
         assertEquals(message.getBodyType(), messageDTO.getBodyType());

@@ -16,8 +16,6 @@ public final class MessageAssembler {
     public static Message fromDTO(MessageDTO messageDTO) {
         var message = new Message();
 
-        message.setId(messageDTO.getId());
-        message.setFrom(messageDTO.getFrom());
         message.setSubject(messageDTO.getSubject());
         message.setBody(messageDTO.getBody());
         message.setBodyType(messageDTO.getBodyType());
@@ -69,8 +67,6 @@ public final class MessageAssembler {
     public static MessageDTO toDTO(Message message) {
         var messageDTO = new MessageDTO();
 
-        messageDTO.setId(message.getId());
-        messageDTO.setFrom(message.getFrom());
         messageDTO.setSubject(message.getSubject());
         messageDTO.setBody(message.getBody());
         messageDTO.setBodyType(message.getBodyType());
@@ -99,10 +95,11 @@ public final class MessageAssembler {
 
         if (message.getAttachments() != null) {
             for (var attachment : message.getAttachments()) {
-                var attachmentDTO = new AttachmentDTO();
-                attachmentDTO.setFileName(attachment.getFileName());
-                attachmentDTO.setFileType(attachment.getFileType());
-                attachmentDTO.setAttachment(attachment.getAttachment());
+                var attachmentDTO = new AttachmentDTO(
+                        attachment.getFileName(),
+                        attachment.getFileType(),
+                        attachment.getAttachment()
+                );
                 messageDTO.getAttachments().add(attachmentDTO);
             }
         }
