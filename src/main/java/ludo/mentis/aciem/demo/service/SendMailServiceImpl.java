@@ -19,7 +19,7 @@ public class SendMailServiceImpl implements SendMailService {
     }
 
     public void execute(Message message) throws MessagingException {
-        LogHelper.traceMethodCall("execute", message);
+        LogHelper.traceMethodCall(SendMailServiceImpl.class, "execute", message);
 
         var mimeMessage = emailSender.createMimeMessage();
         var helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

@@ -14,8 +14,8 @@ class LogHelperTest {
 
         LogHelper.setLogger(mockLogger);
 
-        LogHelper.traceMethodCall("testMethod", "param1", 123);
+        LogHelper.traceMethodCall(LogHelperTest.class, "testMethod", "param1", 123);
 
-        verify(mockLogger).trace("testMethod(param1, 123)");
+        verify(mockLogger).trace("ludo.mentis.aciem.demo.util.LogHelperTest.testMethod(param1, 123)");
     }
 }

@@ -15,9 +15,13 @@ public class LogHelper {
         log = logger;
     }
 
-    public static void traceMethodCall(String methodName, Object... params) {
+    public static <T> void traceMethodCall(Class<T> clazz, String methodName, Object... params) {
         if (log.isTraceEnabled()) {
-            StringBuilder message = new StringBuilder(methodName + "(");
+            var message = new StringBuilder();
+            message.append(clazz.getName());
+            message.append(".");
+            message.append(methodName);
+            message.append("(");
             for (int i = 0; i < params.length; i++) {
                 message.append(params[i]);
                 if (i < params.length - 1) {

@@ -34,6 +34,7 @@ public class Message {
     @Column(name = "body", columnDefinition = "varchar(MAX)")
     private String body;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "body_type", nullable = false)
     private BodyType bodyType;
 

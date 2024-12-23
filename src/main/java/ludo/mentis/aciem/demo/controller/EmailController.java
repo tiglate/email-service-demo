@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import ludo.mentis.aciem.demo.model.MessageDTO;
 import ludo.mentis.aciem.demo.service.EmailService;
+import ludo.mentis.aciem.demo.util.LogHelper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class EmailController {
 
     @PostMapping("/send")
     public ResponseEntity<String> send(@Valid @RequestBody MessageDTO messageDTO, HttpServletRequest request) {
+        LogHelper.traceMethodCall(EmailController.class,"send", messageDTO, request);
         var senderIp = request.getRemoteAddr();
         var result = emailService.send(messageDTO, senderIp);
         if (result) {

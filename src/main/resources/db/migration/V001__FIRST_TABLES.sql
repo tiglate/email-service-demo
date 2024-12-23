@@ -58,7 +58,7 @@ CREATE TABLE tb_recipient (
 );
 
 CREATE TABLE tb_attachment (
-    id_attachment int            NOT NULL,
+    id_attachment int            NOT NULL IDENTITY(1, 1),
     id_message    int            NOT NULL,
     attachment    varbinary(MAX) NOT NULL,
     file_name     varchar(255)   NOT NULL,

@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean send(MessageDTO messageDTO, String senderIp) {
-        LogHelper.traceMethodCall("send", messageDTO, senderIp);
+        LogHelper.traceMethodCall(EmailServiceImpl.class, "send", messageDTO, senderIp);
         logEmailDetails(messageDTO);
 
         var message = MessageAssembler.fromDTO(messageDTO);
