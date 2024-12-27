@@ -8,6 +8,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -17,6 +18,8 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
@@ -33,14 +36,14 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        String header = request.getHeader("Authorization");
+        var header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
 
-        String token = header.substring(7); // Remove "Bearer " prefix
+        var token = header.substring(7); // Remove "Bearer " prefix
 
         try {
             var signedJWT = SignedJWT.parse(token);
@@ -54,14 +57,20 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
             var payload = jwsObject.getPayload().toJSONObject();
             var username = payload != null ? payload.get("sub").toString() : null;
+            var roles = payload != null ? (List<?>) payload.get("roles") : Collections.emptyList();
 
             if (username == null || username.trim().isEmpty()) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid user");
                 return;
             }
 
+            // Convert roles to GrantedAuthority objects
+            var authorities = roles.stream()
+                    .map(role -> (GrantedAuthority) role::toString)
+                    .toList();
+
             // Set the user as authenticated in the security context
-            var authentication = new JwtAuthenticationToken(username, Collections.emptyList());
+            var authentication = new JwtAuthenticationToken(username, authorities);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

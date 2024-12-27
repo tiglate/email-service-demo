@@ -6,6 +6,7 @@ import ludo.mentis.aciem.tabellarius.model.MessageDTO;
 import ludo.mentis.aciem.tabellarius.service.EmailService;
 import ludo.mentis.aciem.tabellarius.util.LogHelper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class EmailController {
     }
 
     @PostMapping("/send")
+    @PreAuthorize("hasAuthority('ROLE_SEND_EMAIL')")
     public ResponseEntity<String> send(@Valid @RequestBody MessageDTO messageDTO, HttpServletRequest request) {
         LogHelper.traceMethodCall(EmailController.class,"send", messageDTO, request);
         var senderIp = request.getRemoteAddr();

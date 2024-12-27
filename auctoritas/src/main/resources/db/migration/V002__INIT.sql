@@ -4,6 +4,7 @@ BEGIN
     INSERT INTO tb_role (role, description) VALUES ('ROLE_USER_WRITE', 'Permission to create, update and delete users');
     INSERT INTO tb_role (role, description) VALUES ('ROLE_SOFTWARE_READ', 'Permission to view softwares');
     INSERT INTO tb_role (role, description) VALUES ('ROLE_SOFTWARE_WRITE', 'Permissions to create, update and delete softwares');
+    INSERT INTO tb_role (role, description) VALUES ('ROLE_SEND_EMAIL', 'Permission to send email');
 END
 
 IF NOT EXISTS(SELECT 1 FROM tb_user)
