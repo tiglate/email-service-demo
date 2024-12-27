@@ -42,10 +42,10 @@ public class FormSecurityConfig {
                 .formLogin(form -> form
                     .loginPage("/login")
                     .failureUrl("/login?loginError=true"))
-                /*.rememberMe(rememberMe -> rememberMe
+                .rememberMe(rememberMe -> rememberMe
                     .tokenValiditySeconds(((int)Duration.ofDays(180).getSeconds()))
                     .rememberMeParameter("rememberMe")
-                    .key(rememberMeKey))*/
+                    .key(rememberMeKey))
                 .logout(logout -> logout
                     .logoutSuccessUrl("/?logoutSuccess=true")
                     .deleteCookies("JSESSIONID"))
