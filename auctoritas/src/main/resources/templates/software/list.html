@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>[[#{software.list.headline}]]</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1 class="flex-grow-1">[[#{software.list.headline}]]</h1>
+        <div>
+            <a th:href="@{/softwares/add}" class="btn btn-primary ms-2">[[#{software.list.createNew}]]</a>
+        </div>
+    </div>
+    <div th:if="${!softwares.empty || filter != null}" class="row">
+        <div th:replace="~{fragments/utils::searchFilter(object='software')}" />
+        <div th:replace="~{fragments/utils::sorting(object='software', sortOptions=${ {'id,ASC', 'code,ASC', 'name,ASC'} }, columnClass='offset-lg-4')}" />
+    </div>
+    <div th:if="${softwares.empty}">[[#{software.list.empty}]]</div>
+    <div th:if="${!softwares.empty}" class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th scope="col">[[#{software.id.label}]]</th>
+                <th scope="col">[[#{software.code.label}]]</th>
+                <th scope="col">[[#{software.name.label}]]</th>
+                <th><!-- --></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="software : ${softwares}">
+                <td>[[${software.id}]]</td>
+                <td>[[${software.code}]]</td>
+                <td>[[${software.name}]]</td>
+                <td>
+                    <div class="float-end text-nowrap">
+                        <a th:href="@{/softwares/edit/{id}(id=${software.id})}" class="btn btn-sm btn-secondary">[[#{software.list.edit}]]</a>
+                        <form th:action="@{/softwares/delete/{id}(id=${software.id})}"
+                              th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-secondary">[[#{software.list.delete}]]</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="~{fragments/utils::pagination()}" />
+</div>
+</body>
+</html>
