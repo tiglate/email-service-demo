@@ -1,4 +1,4 @@
-package ludo.mentis.aciem.auctoritas.controller;
+package ludo.mentis.aciem.auctoritas.rest;
 
 import ludo.mentis.aciem.auctoritas.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

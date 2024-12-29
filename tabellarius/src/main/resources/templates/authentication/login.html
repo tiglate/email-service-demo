@@ -21,9 +21,10 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text bi-person"></span>
                                 <input type="text"
+                                       name="username"
                                        id="txtUsername"
                                        class="form-control"
-                                       th:field="*{name}"
+                                       th:field="*{username}"
                                        placeholder="Enter your username"
                                        autofocus required />
                             </div>
@@ -33,6 +34,7 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text bi-lock-fill"></span>
                                 <input type="password"
+                                       name="password"
                                        id="txtPassword"
                                        class="form-control"
                                        th:field="*{password}"

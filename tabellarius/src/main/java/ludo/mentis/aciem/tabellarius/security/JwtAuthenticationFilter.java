@@ -19,7 +19,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 

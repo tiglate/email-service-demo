@@ -2,13 +2,17 @@ package ludo.mentis.aciem.tabellarius.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Setter
+@Getter
 public class AuthenticationRequest {
 
     @NotNull
     @Size(max = 255)
-    private String name;
+    private String username;
 
     @NotNull
     @Size(max = 255)
@@ -16,35 +20,5 @@ public class AuthenticationRequest {
 
     @NotNull
     private Boolean rememberMe;
-
-    @SuppressWarnings("unused")
-    public String getName() {
-        return name;
-    }
-
-    @SuppressWarnings("unused")
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    @SuppressWarnings("unused")
-    public String getPassword() {
-        return password;
-    }
-
-    @SuppressWarnings("unused")
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    @SuppressWarnings("unused")
-    public Boolean getRememberMe() {
-        return rememberMe;
-    }
-
-    @SuppressWarnings("unused")
-    public void setRememberMe(final Boolean rememberMe) {
-        this.rememberMe = rememberMe;
-    }
 
 }
