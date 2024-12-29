@@ -73,11 +73,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             if (response.getStatusCode() == HttpStatus.OK) {
                 var body = response.getBody();
                 if (body == null) {
-                    throw new UsernameNotFoundException("Invalid credentials");
+                    throw new UsernameNotFoundException("JWT token body is empty");
                 }
                 return (String) body.get("access_token");
             } else {
-                throw new UsernameNotFoundException("Invalid credentials");
+                throw new UsernameNotFoundException("Invalid credentials. Error code: " + response.getStatusCode());
             }
         } catch (RestClientException e) {
             throw new UsernameNotFoundException("Invalid credentials", e);
