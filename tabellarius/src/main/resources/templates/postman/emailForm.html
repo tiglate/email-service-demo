@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <h2 class="mb-4">Send an Email</h2>
+        <form th:action="@{/postman}" th:object="${messageDTO}" method="post" enctype="multipart/form-data">
+            <div class="form-group mb-2">
+                <label for="subject">Subject</label>
+                <input type="text"
+                       id="subject"
+                       class="form-control"
+                       placeholder="Enter subject"
+                       th:field="*{subject}"
+                       th:classappend="${#fields.hasErrors('subject') ? 'is-invalid' : ''}" required />
+                <div th:if="${#fields.hasErrors('subject')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('subject')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="recipientsTo">To</label>
+                <input type="text"
+                       id="recipientsTo"
+                       class="form-control"
+                       placeholder="Enter recipients (comma separated)"
+                       th:field="*{recipientsTo}"
+                       th:classappend="${#fields.hasErrors('recipientsTo') ? 'is-invalid' : ''}" required />
+                <div th:if="${#fields.hasErrors('recipientsTo')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('recipientsTo')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="recipientsCc">Cc</label>
+                <input type="text"
+                       id="recipientsCc"
+                       class="form-control"
+                       placeholder="Enter CC recipients (comma separated)"
+                       th:field="*{recipientsCc}"
+                       th:classappend="${#fields.hasErrors('recipientsCc') ? 'is-invalid' : ''}" />
+                <div th:if="${#fields.hasErrors('recipientsCc')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('recipientsCc')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="recipientsBcc">Bcc</label>
+                <input type="text"
+                       id="recipientsBcc"
+                       class="form-control"
+                       placeholder="Enter BCC recipients (comma separated)"
+                       th:field="*{recipientsBcc}"
+                       th:classappend="${#fields.hasErrors('recipientsBcc') ? 'is-invalid' : ''}" />
+                <div th:if="${#fields.hasErrors('recipientsBcc')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('recipientsBcc')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="bodyType">Body Type</label>
+                <select id="bodyType"
+                        class="form-control"
+                        th:field="*{bodyType}"
+                        th:classappend="${#fields.hasErrors('bodyType') ? 'is-invalid' : ''}">
+                    <option value="TEXT">Text</option>
+                    <option value="HTML">HTML</option>
+                </select>
+                <div th:if="${#fields.hasErrors('bodyType')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('bodyType')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="body">Body</label>
+                <textarea id="body"
+                          class="form-control"
+                          rows="5"
+                          placeholder="Enter email body"
+                          th:field="*{body}"
+                          th:classappend="${#fields.hasErrors('body') ? 'is-invalid' : ''}"
+                          required></textarea>
+                <div th:if="${#fields.hasErrors('body')}" class="invalid-feedback d-block">
+                    <p th:each="error : ${#fields.errors('body')}" class="mb-0">[[${error}]]</p>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="files">Attachments</label>
+                <input type="file" id="files" name="files" class="form-control-file" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Email</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
