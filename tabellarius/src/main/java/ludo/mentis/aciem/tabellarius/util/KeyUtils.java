@@ -1,34 +1,27 @@
 package ludo.mentis.aciem.tabellarius.util;
 
 import ludo.mentis.aciem.tabellarius.security.PublicKeyException;
-import org.springframework.web.client.RestTemplate;
 
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import java.util.Map;
 
 public class KeyUtils {
+
+    private static final String DUMMY_PUBLIC_KEY =
+            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlJ3D1bOXDD/FhHjVPWHULVFmlo/pVvp7s"
+          + "FkXHnF8CLWZqDx5ZcQLcVrcAnHApMsiuEzHnW1FZSPNP0ERt3vqMtHhbZrQXrt4+M0CsHqYGdzYB"
+          + "KuqUSPuIMhSxmAubwVVuxyoF+OoQ7M8sep01Je82sy4X7avW6LHFXBXNlOsVqyARGQ2DlmbpquV+"
+          + "wJ88m0k8m7/WY/IDxXYQbpXuUZG15YuU3T2F8A8y8KVsWBkBpgRFsmb+6CxZY0UivjjBaUKb1D/f"
+          + "tbEi0Z4JAH1v8EB6iAcwzNvNKBl1XQLUklw5YLwotGvazBaD2Av/g+C52zHJwesz1pE0CP7C+HR8"
+          + "6yyNwIDAQAB";
 
     private KeyUtils() {
         throw new IllegalStateException("Utility class");
     }
 
-    public static PublicKey getPublicKeyFromCertsEndpoint(String certsUrl) throws PublicKeyException {
-        var restTemplate = new RestTemplate();
-        var response = restTemplate.getForObject(certsUrl, Map.class);
-
-        if (response == null) {
-            throw new PublicKeyException("Failed to fetch public key");
-        }
-
-        var publicKeyString = (String)response.get("public_key");
-
-        if (publicKeyString == null || publicKeyString.isEmpty()) {
-            throw new PublicKeyException("Failed to fetch public key");
-        }
-
+    public static PublicKey getPublicKey(String publicKeyString) throws PublicKeyException {
         try {
             var publicKeyPEM = getPublicKeyPEM(publicKeyString);
             var decoded = Base64.getDecoder().decode(publicKeyPEM);
@@ -43,5 +36,9 @@ public class KeyUtils {
         return publicKeyString.replace("-----BEGIN PUBLIC KEY-----", "")
                 .replace("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s+", "");
+    }
+
+    public static String getDummyPublicKey() {
+        return DUMMY_PUBLIC_KEY;
     }
 }

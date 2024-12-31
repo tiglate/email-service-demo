@@ -1,6 +1,6 @@
 /**
  * Register an event at the document for the specified selector,
- * so events are still catched after DOM changes.
+ * so events are still caught after DOM changes.
  */
 function handleEvent(eventType, selector, handler) {
   document.addEventListener(eventType, function(event) {

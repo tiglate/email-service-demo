@@ -1,6 +1,7 @@
 package ludo.mentis.aciem.tabellarius.security;
 
-import ludo.mentis.aciem.tabellarius.util.KeyUtils;
+import ludo.mentis.aciem.tabellarius.service.PublicKeyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,9 @@ public class SecurityConfig {
 
     @Value("${app.security.remember-me.key}")
     private String rememberMeKey;
+
+    @Autowired
+    private PublicKeyService publicKeyService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -63,7 +67,7 @@ public class SecurityConfig {
     @Bean
     public PublicKey publicKey() throws PublicKeyException {
         var certsUrl = "http://localhost:9000/oauth/certs";
-        return KeyUtils.getPublicKeyFromCertsEndpoint(certsUrl);
+        return publicKeyService.getPublicKeyFromCertsEndpoint(certsUrl);
     }
 }
 
