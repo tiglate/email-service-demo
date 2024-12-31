@@ -1,8 +1,5 @@
 package ludo.mentis.aciem.auctoritas.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
+import java.time.Duration;
+
 
 @Configuration
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class FormSecurityConfig {
 
     @Bean
@@ -34,16 +33,15 @@ public class FormSecurityConfig {
 
     @Bean
     public SecurityFilterChain formSecurityConfigFilterChain(final HttpSecurity http,
-            @Value("${formSecurityConfig.rememberMeKey}") final String rememberMeKey) throws
-            Exception {
-        return http.cors(withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/**", "/oauth/token", "/oauth/certs"))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            @Value("${formSecurityConfig.rememberMeKey}") final String rememberMeKey) throws Exception {
+        return http.cors().and()
+                .csrf(csrf -> csrf.ignoringAntMatchers("/actuator/**", "/oauth/token", "/oauth/certs"))
+                .authorizeRequests(authorize -> authorize.anyRequest().permitAll())
                 .formLogin(form -> form
                     .loginPage("/login")
                     .failureUrl("/login?loginError=true"))
                 .rememberMe(rememberMe -> rememberMe
-                    .tokenValiditySeconds(((int)Duration.ofDays(180).getSeconds()))
+                    .tokenValiditySeconds((int) Duration.ofDays(180).getSeconds())
                     .rememberMeParameter("rememberMe")
                     .key(rememberMeKey))
                 .logout(logout -> logout
@@ -53,5 +51,4 @@ public class FormSecurityConfig {
                     .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
-
 }

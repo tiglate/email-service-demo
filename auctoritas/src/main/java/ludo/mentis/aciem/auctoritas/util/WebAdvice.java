@@ -1,8 +1,9 @@
 package ludo.mentis.aciem.auctoritas.util;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

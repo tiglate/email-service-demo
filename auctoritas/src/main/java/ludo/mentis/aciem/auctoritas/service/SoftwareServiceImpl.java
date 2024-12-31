@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 
 @Service
 public class SoftwareServiceImpl implements SoftwareService {
@@ -42,7 +44,7 @@ public class SoftwareServiceImpl implements SoftwareService {
         return new PageImpl<>(page.getContent()
                 .stream()
                 .map(application -> mapToDTO(application, new SoftwareDTO()))
-                .toList(),
+                .collect(Collectors.toList()),
                 pageable, page.getTotalElements());
     }
 

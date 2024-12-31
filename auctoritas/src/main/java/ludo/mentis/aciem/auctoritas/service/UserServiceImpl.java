@@ -1,15 +1,11 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import jakarta.transaction.Transactional;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import ludo.mentis.aciem.auctoritas.domain.Software;
 import ludo.mentis.aciem.auctoritas.domain.Role;
+import ludo.mentis.aciem.auctoritas.domain.Software;
 import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
-import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.RoleRepository;
+import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
 import ludo.mentis.aciem.auctoritas.util.NotFoundException;
 import org.springframework.data.domain.Page;
@@ -17,6 +13,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(page.getContent()
                 .stream()
                 .map(user -> mapToDTO(user, new UserDTO()))
-                .toList(),
+                .collect(Collectors.toList()),
                 pageable, page.getTotalElements());
     }
 
@@ -88,9 +90,10 @@ public class UserServiceImpl implements UserService {
     private UserDTO mapToDTO(final User user, final UserDTO userDTO) {
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
-        userDTO.setRoles(user.getRoles().stream()
-                .map(role -> role.getId())
-                .toList());
+        userDTO.setRoles(user.getRoles()
+                .stream()
+                .map(Role::getId)
+                .collect(Collectors.toList()));
         userDTO.setSoftware(user.getSoftware() == null ? null : user.getSoftware().getId());
         return userDTO;
     }

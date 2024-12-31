@@ -1,7 +1,5 @@
 package ludo.mentis.aciem.auctoritas.util;
 
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import ludo.mentis.aciem.auctoritas.model.PaginationModel;
 import ludo.mentis.aciem.auctoritas.model.PaginationStep;
 import org.springframework.context.MessageSource;
@@ -10,6 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 
 @Component

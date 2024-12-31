@@ -1,6 +1,5 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.model.FormSecurityConfigUserDetails;
@@ -9,6 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,7 +32,11 @@ public class FormUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
 
-        var authorities = user.getRoles().stream().map(p -> new SimpleGrantedAuthority(p.getRole())).toList();
+        var authorities = user
+                .getRoles()
+                .stream()
+                .map(p -> new SimpleGrantedAuthority(p.getRole()))
+                .collect(Collectors.toList());
 
         return new FormSecurityConfigUserDetails(user.getId(), username, user.getPassword(), authorities);
     }
