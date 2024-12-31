@@ -1,6 +1,5 @@
 package ludo.mentis.aciem.tabellarius.service;
 
-import jakarta.mail.MessagingException;
 import ludo.mentis.aciem.tabellarius.domain.BodyType;
 import ludo.mentis.aciem.tabellarius.domain.Message;
 import ludo.mentis.aciem.tabellarius.model.AttachmentDTO;
@@ -13,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -22,6 +22,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -96,11 +97,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private List<SimpleGrantedAuthority> extractAuthorities(SignedJWT signedJWT) throws ParseException {
         var claims = signedJWT.getJWTClaimsSet();
         var rolesClaim = claims.getClaim("roles");
-        if (!(rolesClaim instanceof List<?> roles)) {
+        if (!(rolesClaim instanceof List<?>)) {
             throw new ParseException("Invalid roles claim", 0);
         }
+        var roles = (List<?>) rolesClaim;
         return roles.stream()
                 .map(r -> new SimpleGrantedAuthority(r.toString()))
-                .toList();
+                .collect(Collectors.toList());
     }
 }

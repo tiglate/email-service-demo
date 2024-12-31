@@ -13,19 +13,19 @@ public class FlashMessages {
     }
 
     public static void referencedWarning(RedirectAttributes redirectAttributes, String referencedBy, Integer id) {
-        redirectAttributes.addFlashAttribute(MSG_ERROR, "This entity is still referenced by %s %d via field Software.".formatted(referencedBy, id));
+        redirectAttributes.addFlashAttribute(MSG_ERROR, String.format("This entity is still referenced by %s %d via field Software.", referencedBy, id));
     }
 
     public static void createSuccess(RedirectAttributes redirectAttributes, String entityName) {
-        redirectAttributes.addFlashAttribute(MSG_SUCCESS, "%s was created successfully".formatted(entityName));
+        redirectAttributes.addFlashAttribute(MSG_SUCCESS, String.format("%s was created successfully", entityName));
     }
 
     public static void updateSuccess(RedirectAttributes redirectAttributes, String entityName) {
-        redirectAttributes.addFlashAttribute(MSG_SUCCESS, "%s was updated successfully.".formatted(entityName));
+        redirectAttributes.addFlashAttribute(MSG_SUCCESS, String.format("%s was updated successfully.", entityName));
     }
 
     public static void deleteSuccess(RedirectAttributes redirectAttributes, String entityName) {
-        redirectAttributes.addFlashAttribute(MSG_SUCCESS, "%s was removed successfully.".formatted(entityName));
+        redirectAttributes.addFlashAttribute(MSG_SUCCESS, String.format("%s was removed successfully.", entityName));
     }
 
     public static void error(RedirectAttributes redirectAttributes, Exception exception) {

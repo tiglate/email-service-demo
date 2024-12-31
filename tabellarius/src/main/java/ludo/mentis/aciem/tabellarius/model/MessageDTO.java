@@ -1,13 +1,13 @@
 package ludo.mentis.aciem.tabellarius.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import ludo.mentis.aciem.tabellarius.domain.BodyType;
 import ludo.mentis.aciem.tabellarius.validation.UniqueFileName;
 import ludo.mentis.aciem.tabellarius.validation.ValidEmailList;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter

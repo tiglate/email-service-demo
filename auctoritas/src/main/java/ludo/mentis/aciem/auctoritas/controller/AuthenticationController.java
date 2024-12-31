@@ -16,7 +16,6 @@ public class AuthenticationController {
             @RequestParam(name = "loginRequired", required = false) final Boolean loginRequired,
             @RequestParam(name = "loginError", required = false) final Boolean loginError,
             final Model model) {
-        // dummy for using the inputRow fragment
         model.addAttribute("authentication", new AuthenticationRequest());
         if (loginRequired == Boolean.TRUE) {
             model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.login.required"));

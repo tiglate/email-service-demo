@@ -28,27 +28,31 @@ public class SecurityConfig {
     private String rememberMeKey;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http,
-                                                   final PublicKey publicKey) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.ignoringAntMatchers("/actuator/**", "/api/**"))
+            .authorizeRequests(authorize -> authorize
+                .antMatchers("/swagger-ui.html",
+                             "/swagger-ui/**",
+                             "/v3/api-docs/**",
+                             "/login",
+                             "/static/**",
+                             "/webjars/**").permitAll()
+                .antMatchers("/api/**").authenticated()
+                .anyRequest().permitAll()
+            )
+            .addFilter(new JwtAuthenticationFilter(publicKey()))
+            .formLogin(form -> form
+                .loginPage("/login")
+                .failureUrl("/login?loginError=true"))
+            .logout(logout -> logout
+                .logoutSuccessUrl("/?logoutSuccess=true")
+                .deleteCookies("JSESSIONID"))
+            .exceptionHandling(exception -> exception
+                .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), request -> request.getRequestURI().startsWith("/api/"))
+                .defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true"), request -> !request.getRequestURI().startsWith("/api/")));
 
-        return http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/**", "/api/**"))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/login", "/static/**", "/webjars/**").permitAll()
-                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll()
-                )
-                .addFilter(new JwtAuthenticationFilter(publicKey))
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .failureUrl("/login?loginError=true"))
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/?logoutSuccess=true")
-                        .deleteCookies("JSESSIONID"))
-                .exceptionHandling(exception -> exception
-                        .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), request -> request.getRequestURI().startsWith("/api/"))
-                        .defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true"), request -> !request.getRequestURI().startsWith("/api/")))
-                .build();
+        return http.build();
     }
 
     @Bean

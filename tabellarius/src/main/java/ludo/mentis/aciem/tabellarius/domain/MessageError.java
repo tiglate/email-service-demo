@@ -1,7 +1,8 @@
 package ludo.mentis.aciem.tabellarius.domain;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_message_error")

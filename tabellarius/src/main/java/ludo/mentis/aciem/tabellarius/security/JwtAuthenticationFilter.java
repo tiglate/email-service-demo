@@ -4,21 +4,22 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
@@ -66,7 +67,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             // Convert roles to GrantedAuthority objects
             var authorities = roles.stream()
                     .map(role -> (GrantedAuthority) role::toString)
-                    .toList();
+                    .collect(Collectors.toList());
 
             // Set the user as authenticated in the security context
             var authentication = new JwtAuthenticationToken(username, authorities);
