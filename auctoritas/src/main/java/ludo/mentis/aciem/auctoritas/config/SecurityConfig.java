@@ -14,14 +14,12 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 
 import java.time.Duration;
 
-
 @Configuration
 @EnableMethodSecurity
-public class FormSecurityConfig {
+public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // creates hashes with {bcrypt} prefix
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -35,7 +33,8 @@ public class FormSecurityConfig {
     public SecurityFilterChain formSecurityConfigFilterChain(final HttpSecurity http,
             @Value("${formSecurityConfig.rememberMeKey}") final String rememberMeKey) throws Exception {
         return http.cors().and()
-                .csrf(csrf -> csrf.ignoringAntMatchers("/actuator/**", "/oauth/token", "/oauth/certs"))
+                .csrf(csrf ->
+                        csrf.ignoringAntMatchers("/actuator/**", "/oauth/**", "/api/**"))
                 .authorizeRequests(authorize -> authorize.anyRequest().permitAll())
                 .formLogin(form -> form
                     .loginPage("/login")

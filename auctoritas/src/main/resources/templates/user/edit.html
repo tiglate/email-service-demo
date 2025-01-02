@@ -17,6 +17,8 @@
         <div th:replace="~{fragments/forms::inputRow(object='user', field='id', disabled=true, type='number')}" />
         <div th:replace="~{fragments/forms::inputRow(object='user', field='username', required=true)}" />
         <div th:replace="~{fragments/forms::inputRow(object='user', field='password', required=true, type='password')}" />
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='enabled', type='checkbox')}" />
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='accountExpirationDate', inputClass='js-datetimepicker')}" />
         <div th:replace="~{fragments/forms::inputRow(object='user', field='roles', type='multiselect')}" />
         <div th:replace="~{fragments/forms::inputRow(object='user', field='software', type='select')}" />
         <input type="submit" th:value="#{user.edit.headline}" class="btn btn-primary mt-4" />

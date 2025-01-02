@@ -5,7 +5,7 @@ import ludo.mentis.aciem.auctoritas.domain.Software;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.RoleRepository;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
-import ludo.mentis.aciem.auctoritas.service.UserService;
+import ludo.mentis.aciem.auctoritas.service.UserCrudService;
 import ludo.mentis.aciem.auctoritas.util.CustomCollectors;
 import ludo.mentis.aciem.auctoritas.util.UserRoles;
 import ludo.mentis.aciem.auctoritas.util.WebUtils;
@@ -28,11 +28,12 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserCrudService userService;
     private final RoleRepository roleRepository;
     private final SoftwareRepository softwareRepository;
 
-    public UserController(final UserService userService, final RoleRepository roleRepository,
+    public UserController(final UserCrudService userService,
+                          final RoleRepository roleRepository,
                           final SoftwareRepository softwareRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;

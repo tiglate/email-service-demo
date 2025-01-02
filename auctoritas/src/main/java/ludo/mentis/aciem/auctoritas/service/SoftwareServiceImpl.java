@@ -5,7 +5,7 @@ import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
-import ludo.mentis.aciem.auctoritas.util.NotFoundException;
+import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

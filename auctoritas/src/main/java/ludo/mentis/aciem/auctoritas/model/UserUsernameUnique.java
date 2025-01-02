@@ -40,7 +40,7 @@ public @interface UserUsernameUnique {
         private final HttpServletRequest request;
 
         public UserUsernameUniqueValidator(final UserService userService,
-                final HttpServletRequest request) {
+                                           final HttpServletRequest request) {
             this.userService = userService;
             this.request = request;
         }
@@ -51,10 +51,9 @@ public @interface UserUsernameUnique {
                 // no value present
                 return true;
             }
-            @SuppressWarnings("unchecked") final Map<String, String> pathVariables =
-                    ((Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
+            @SuppressWarnings("unchecked") final var pathVariables = (Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
             final String currentId = pathVariables.get("id");
-            if (currentId != null && value.equalsIgnoreCase(userService.get(Integer.parseInt(currentId)).getUsername())) {
+            if (currentId != null && value.equalsIgnoreCase(userService.getUsernameById(Integer.parseInt(currentId)))) {
                 // value hasn't changed
                 return true;
             }

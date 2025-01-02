@@ -29,6 +29,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column
+    private OffsetDateTime accountExpirationDate;
+
+    @Column(nullable = false)
+    private int failedLoginAttempts = 0;
+
+    @Column(columnDefinition = "datetime2")
+    private OffsetDateTime lastFailedLoginAttempt;
+
+    @Column(nullable = false)
+    private boolean accountLocked = false;
+
     @ManyToMany
     @JoinTable(
             name = "tb_user_role",

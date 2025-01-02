@@ -14,7 +14,7 @@
     </div>
     <div th:if="${!users.empty || filter != null}" class="row">
         <div th:replace="~{fragments/utils::searchFilter(object='user')}" />
-        <div th:replace="~{fragments/utils::sorting(object='user', sortOptions=${ {'id,ASC', 'username,ASC'} }, columnClass='offset-lg-4')}" />
+        <div th:replace="~{fragments/utils::sorting(object='user', sortOptions=${ {'id,ASC', 'username,ASC', 'enabled,ASC'} }, columnClass='offset-lg-4')}" />
     </div>
     <div th:if="${users.empty}">[[#{user.list.empty}]]</div>
     <div th:if="${!users.empty}" class="table-responsive">
@@ -23,6 +23,8 @@
             <tr>
                 <th scope="col">[[#{user.id.label}]]</th>
                 <th scope="col">[[#{user.username.label}]]</th>
+                <th scope="col">[[#{user.enabled.label}]]</th>
+                <th scope="col">[[#{user.accountExpirationDate.label}]]</th>
                 <th scope="col">[[#{user.software.label}]]</th>
                 <th><!-- --></th>
             </tr>
@@ -31,6 +33,8 @@
             <tr th:each="user : ${users}">
                 <td>[[${user.id}]]</td>
                 <td>[[${user.username}]]</td>
+                <td>[[${user.enabled}]]</td>
+                <td>[[${user.accountExpirationDate}]]</td>
                 <td>[[${user.software}]]</td>
                 <td>
                     <div class="float-end text-nowrap">
