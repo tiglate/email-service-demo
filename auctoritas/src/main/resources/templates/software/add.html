@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
     <title>[[#{software.add.headline}]]</title>
@@ -12,10 +14,10 @@
             <a th:href="@{/softwares}" class="btn btn-secondary">[[#{software.add.back}]]</a>
         </div>
     </div>
-    <div th:replace="~{fragments/forms::globalErrors('software')}" />
-    <form th:action="${requestUri}" method="post" novalidate="">
-        <div th:replace="~{fragments/forms::inputRow(object='software', field='code')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='software', field='name', required=true)}" />
+    <div th:replace="~{fragments/forms::globalErrors('software')}"></div>
+    <form th:action="${requestUri}" method="post" novalidate>
+        <div th:replace="~{fragments/forms::inputRow(object='software', field='code')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='software', field='name', required=true)}"></div>
         <input type="submit" th:value="#{software.add.headline}" class="btn btn-primary mt-4" />
     </form>
 </div>

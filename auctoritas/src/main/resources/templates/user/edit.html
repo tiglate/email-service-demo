@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
     <title>[[#{user.edit.headline}]]</title>
@@ -12,15 +14,15 @@
             <a th:href="@{/users}" class="btn btn-secondary">[[#{user.edit.back}]]</a>
         </div>
     </div>
-    <div th:replace="~{fragments/forms::globalErrors('user')}" />
-    <form th:action="${requestUri}" method="post" novalidate="">
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='id', disabled=true, type='number')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='username', required=true)}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='password', required=true, type='password')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='enabled', type='checkbox')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='accountExpirationDate', inputClass='js-datetimepicker')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='roles', type='multiselect')}" />
-        <div th:replace="~{fragments/forms::inputRow(object='user', field='software', type='select')}" />
+    <div th:replace="~{fragments/forms::globalErrors('user')}"></div>
+    <form th:action="${requestUri}" method="post" novalidate>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='id', disabled=true, type='number')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='username', required=true)}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='password', required=true, type='password')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='enabled', type='checkbox')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='accountExpirationDate', inputClass='js-datetimepicker')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='roles', type='multiselect')}"></div>
+        <div th:replace="~{fragments/forms::inputRow(object='user', field='software', type='select')}"></div>
         <input type="submit" th:value="#{user.edit.headline}" class="btn btn-primary mt-4" />
     </form>
 </div>

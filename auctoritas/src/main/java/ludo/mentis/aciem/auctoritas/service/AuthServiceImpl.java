@@ -1,16 +1,16 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import com.nimbusds.jose.JOSEException;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.security.PublicKey;
+import java.util.Base64;
+import java.util.Map;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
-import java.util.Base64;
-import java.util.Map;
+import com.nimbusds.jose.JOSEException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -19,7 +19,6 @@ public class AuthServiceImpl implements AuthService {
     private final PublicKey publicKey;
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
     public AuthServiceImpl(TokenService tokenService, PublicKey publicKey, AuthenticationManager authenticationManager) {
         this.tokenService = tokenService;
         this.publicKey = publicKey;
@@ -28,16 +27,18 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Map<String, String> generateToken(String username, String password) throws AuthenticationException, JOSEException {
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        final var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         if (authentication.isAuthenticated()) {
-            var roles = authentication.getAuthorities().stream()
+            final var roles = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .toArray(String[]::new);
-            var token = tokenService.generateToken(username, roles);
+            final var token = tokenService.generateToken(username, roles);
             return Map.of("access_token", token, "token_type", "Bearer");
         } else {
-            throw new AuthenticationException("Invalid credentials") {};
+            throw new AuthenticationException("Invalid credentials") {
+				private static final long serialVersionUID = -4473800467201599470L;
+			};
         }
     }
 

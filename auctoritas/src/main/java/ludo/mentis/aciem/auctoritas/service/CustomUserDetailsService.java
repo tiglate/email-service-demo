@@ -1,15 +1,16 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import lombok.extern.slf4j.Slf4j;
-import ludo.mentis.aciem.auctoritas.exception.AccountDisabledException;
-import ludo.mentis.aciem.auctoritas.exception.AccountExpiredException;
-import ludo.mentis.aciem.auctoritas.exception.AccountLockedException;
-import ludo.mentis.aciem.auctoritas.model.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
+import ludo.mentis.aciem.auctoritas.exception.AccountDisabledException;
+import ludo.mentis.aciem.auctoritas.exception.AccountExpiredException;
+import ludo.mentis.aciem.auctoritas.exception.AccountLockedException;
+import ludo.mentis.aciem.auctoritas.model.CustomUserDetails;
 
 @Service
 @Slf4j

@@ -1,13 +1,17 @@
 package ludo.mentis.aciem.auctoritas.rest;
 
-import ludo.mentis.aciem.auctoritas.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import ludo.mentis.aciem.auctoritas.service.AuthService;
 
 @RestController
 @RequestMapping("/oauth")
@@ -15,7 +19,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
@@ -24,7 +27,7 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> generateToken(@RequestParam String username,
                                                              @RequestParam String password) {
         try {
-            var tokenResponse = authService.generateToken(username, password);
+            final var tokenResponse = authService.generateToken(username, password);
             return ResponseEntity.ok(tokenResponse);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
@@ -35,13 +38,13 @@ public class AuthController {
 
     @GetMapping("/certs")
     public ResponseEntity<Map<String, String>> getPublicKey() {
-        var publicKeyString = authService.getPublicKey();
+        final var publicKeyString = authService.getPublicKey();
         return ResponseEntity.ok(Map.of("public_key", publicKeyString));
     }
 
     @GetMapping("/validate")
     public ResponseEntity<Map<String, String>> validateToken(@RequestParam String token) {
-        var isValid = authService.validateToken(token);
+        final var isValid = authService.validateToken(token);
         if (isValid) {
             return ResponseEntity.ok(Map.of("valid", "true"));
         } else {

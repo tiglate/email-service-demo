@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.LOCKED, reason = "Account locked")
 public class AccountLockedException extends AuthenticationException {
-    public AccountLockedException(String msg) {
+
+	private static final long serialVersionUID = 1444980166898628531L;
+
+	public AccountLockedException(String msg) {
         super(msg);
     }
 }

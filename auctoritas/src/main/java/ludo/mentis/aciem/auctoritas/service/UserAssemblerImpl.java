@@ -1,17 +1,18 @@
 package ludo.mentis.aciem.auctoritas.service;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import ludo.mentis.aciem.auctoritas.domain.Role;
 import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.RoleRepository;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.stream.Collectors;
 
 @Component
 public class UserAssemblerImpl implements UserAssembler {
@@ -54,7 +55,7 @@ public class UserAssemblerImpl implements UserAssembler {
 
     @Override
     public User toEntity(UserDTO userDTO) {
-        var user = new User();
+        final var user = new User();
         user.setId(userDTO.getId());
         return mapToEntity(userDTO, user);
     }

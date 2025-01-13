@@ -1,13 +1,14 @@
 package ludo.mentis.aciem.auctoritas.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.OffsetDateTime;
-import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter

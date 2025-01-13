@@ -1,9 +1,10 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
-import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
+import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
 
 
 public interface SoftwareService {

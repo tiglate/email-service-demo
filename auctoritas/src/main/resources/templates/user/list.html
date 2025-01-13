@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
     <title>[[#{user.list.headline}]]</title>
@@ -13,8 +15,8 @@
         </div>
     </div>
     <div th:if="${!users.empty || filter != null}" class="row">
-        <div th:replace="~{fragments/utils::searchFilter(object='user')}" />
-        <div th:replace="~{fragments/utils::sorting(object='user', sortOptions=${ {'id,ASC', 'username,ASC', 'enabled,ASC'} }, columnClass='offset-lg-4')}" />
+        <div th:replace="~{fragments/utils::searchFilter(object='user')}"></div>
+        <div th:replace="~{fragments/utils::sorting(object='user', sortOptions=${ {'id,ASC', 'username,ASC', 'enabled,ASC'} }, columnClass='offset-lg-4')}"></div>
     </div>
     <div th:if="${users.empty}">[[#{user.list.empty}]]</div>
     <div th:if="${!users.empty}" class="table-responsive">
@@ -49,7 +51,7 @@
             </tbody>
         </table>
     </div>
-    <div th:replace="~{fragments/utils::pagination()}" />
+    <div th:replace="~{fragments/utils::pagination()}"></div>
 </div>
 </body>
 </html>

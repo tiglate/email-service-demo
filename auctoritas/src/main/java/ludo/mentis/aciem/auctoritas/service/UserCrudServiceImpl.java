@@ -1,16 +1,18 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import ludo.mentis.aciem.auctoritas.domain.User;
-import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
-import ludo.mentis.aciem.auctoritas.model.UserDTO;
-import ludo.mentis.aciem.auctoritas.repos.UserRepository;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.stream.Collectors;
+import ludo.mentis.aciem.auctoritas.domain.User;
+import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
+import ludo.mentis.aciem.auctoritas.model.UserDTO;
+import ludo.mentis.aciem.auctoritas.repos.UserRepository;
 
 @Service
 @Transactional

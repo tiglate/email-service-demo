@@ -1,11 +1,13 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import ludo.mentis.aciem.auctoritas.domain.User;
-import ludo.mentis.aciem.auctoritas.repos.UserRepository;
-import org.springframework.stereotype.Service;
+import java.time.OffsetDateTime;
 
 import javax.transaction.Transactional;
-import java.time.OffsetDateTime;
+
+import org.springframework.stereotype.Service;
+
+import ludo.mentis.aciem.auctoritas.domain.User;
+import ludo.mentis.aciem.auctoritas.repos.UserRepository;
 
 
 @Service
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int increaseFailedAttempts(User user) {
-        var newFailAttempts = user.getFailedLoginAttempts() + 1;
+        final var newFailAttempts = user.getFailedLoginAttempts() + 1;
         user.setFailedLoginAttempts(newFailAttempts);
         user.setLastFailedLoginAttempt(OffsetDateTime.now());
         if (newFailAttempts >= MAX_FAILED_ATTEMPTS) {
@@ -47,17 +49,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isAccountLocked(User user) {
-        if (user.isAccountLocked()) {
-            if (user.getLastFailedLoginAttempt().plusSeconds(LOCK_TIME_DURATION / 1000).isBefore(OffsetDateTime.now())) {
-                user.setAccountLocked(false);
-                user.setFailedLoginAttempts(0);
-                user.setLastFailedLoginAttempt(null);
-                userRepository.save(user);
-                return false;
-            }
-            return true;
-        }
-        return false;
+        if (!user.isAccountLocked()) {
+			return false;
+		}
+		if (user.getLastFailedLoginAttempt().plusSeconds(LOCK_TIME_DURATION / 1000).isAfter(OffsetDateTime.now())) {
+			return true;
+		}
+		user.setAccountLocked(false);
+		user.setFailedLoginAttempts(0);
+		user.setLastFailedLoginAttempt(null);
+		userRepository.save(user);
+		return false;
     }
 
     @Override

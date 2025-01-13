@@ -1,7 +1,9 @@
 package ludo.mentis.aciem.auctoritas.util;
 
-import ludo.mentis.aciem.auctoritas.model.PaginationModel;
-import ludo.mentis.aciem.auctoritas.model.PaginationStep;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -9,8 +11,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import ludo.mentis.aciem.auctoritas.model.PaginationModel;
+import ludo.mentis.aciem.auctoritas.model.PaginationStep;
 
 
 @Component
@@ -28,7 +30,11 @@ public class WebUtils {
     }
 
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+    	final var attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    	if (attributes == null) {
+    		throw new IllegalStateException("RequestContextHolder.getRequestAttributes() cannot be null");
+    	}
+        return attributes.getRequest();
     }
 
     public static String getMessage(final String code, final Object... args) {
@@ -63,7 +69,7 @@ public class WebUtils {
         for (int i = startAt; i < endAt; i++) {
             final PaginationStep step = new PaginationStep();
             step.setActive(i == page.getNumber());
-            step.setLabel("" + (i + 1));
+            step.setLabel(Integer.toString((i + 1)));
             step.setUrl(getStepUrl(page, i));
             steps.add(step);
         }
@@ -75,7 +81,7 @@ public class WebUtils {
 
         final long rangeStart = page.getNumber() * page.getSize() + 1l;
         final long rangeEnd = Math.min(rangeStart + page.getSize() - 1, page.getTotalElements());
-        final String range = rangeStart == rangeEnd ? "" + rangeStart : rangeStart + " - " + rangeEnd;
+        final String range = rangeStart == rangeEnd ? Long.toString(rangeStart) : rangeStart + " - " + rangeEnd;
         final PaginationModel paginationModel = new PaginationModel();
         paginationModel.setSteps(steps);
         paginationModel.setElements(getMessage("pagination.elements", range, page.getTotalElements()));

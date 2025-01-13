@@ -1,8 +1,9 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import ludo.mentis.aciem.auctoritas.model.UserDTO;
 
 public interface UserCrudService {
 

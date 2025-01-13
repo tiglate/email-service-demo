@@ -1,13 +1,14 @@
 package ludo.mentis.aciem.auctoritas.config;
 
-import lombok.SneakyThrows;
+import java.io.File;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
-import java.io.File;
+import lombok.SneakyThrows;
 
 
 /**
@@ -22,7 +23,7 @@ public class LocalDevConfig {
         final ClassPathResource applicationProperties = new ClassPathResource("application.properties");
         if (applicationProperties.isFile()) {
             File sourceRoot = applicationProperties.getFile().getParentFile();
-            while (sourceRoot.listFiles((dir, name) -> name.equals("mvnw")).length != 1) {
+            while (sourceRoot.listFiles((dir, name) -> "mvnw".equals(name)).length != 1) {
                 sourceRoot = sourceRoot.getParentFile();
             }
             final FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();

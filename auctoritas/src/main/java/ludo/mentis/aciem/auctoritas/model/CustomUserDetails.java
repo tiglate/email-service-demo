@@ -1,18 +1,20 @@
 package ludo.mentis.aciem.auctoritas.model;
 
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.Getter;
+
 @Getter
 public class CustomUserDetails implements UserDetails {
 
-    private final Integer id;
+	private static final long serialVersionUID = 6087081873305564026L;
+	private final Integer id;
     private final String username;
     private final String password;
     private final boolean enabled;

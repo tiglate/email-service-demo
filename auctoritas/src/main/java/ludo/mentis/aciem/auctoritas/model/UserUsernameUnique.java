@@ -1,20 +1,24 @@
 package ludo.mentis.aciem.auctoritas.model;
 
-import ludo.mentis.aciem.auctoritas.service.UserService;
-import org.springframework.web.servlet.HandlerMapping;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Map;
 
-import static java.lang.annotation.ElementType.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+
+import org.springframework.web.servlet.HandlerMapping;
+
+import ludo.mentis.aciem.auctoritas.service.UserService;
 
 
 /**

@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "Account expired")
 public class AccountExpiredException extends AuthenticationException {
-    public AccountExpiredException(String msg) {
+
+	private static final long serialVersionUID = -7710306274382968351L;
+
+	public AccountExpiredException(String msg) {
         super(msg);
     }
 }
