@@ -15,11 +15,11 @@ import ludo.mentis.aciem.auctoritas.service.AuthService;
 
 @RestController
 @RequestMapping("/oauth")
-public class AuthController {
+public class OAuthController {
 
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
+    public OAuthController(AuthService authService) {
         this.authService = authService;
     }
 
