@@ -34,7 +34,8 @@ import ludo.mentis.aciem.auctoritas.util.WebUtils;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserCrudService userService;
+    private static final String REDIRECT_USERS = "redirect:/users";
+	private final UserCrudService userService;
     private final RoleRepository roleRepository;
     private final SoftwareRepository softwareRepository;
 
@@ -50,7 +51,7 @@ public class UserController {
     public void prepareContext(final Model model) {
         model.addAttribute("rolesValues", roleRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Role::getId, Role::getRole)));
+                .collect(CustomCollectors.toSortedMap(Role::getId, Role::getCode)));
         model.addAttribute("softwareValues", softwareRepository.findAll(Sort.by("id"))
                 .stream()
                 .collect(CustomCollectors.toSortedMap(Software::getId, Software::getName)));
@@ -83,7 +84,7 @@ public class UserController {
         }
         userService.create(userDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-        return "redirect:/users";
+        return REDIRECT_USERS;
     }
 
     @GetMapping("/edit/{id}")
@@ -103,7 +104,7 @@ public class UserController {
         }
         userService.update(id, userDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-        return "redirect:/users";
+        return REDIRECT_USERS;
     }
 
     @PostMapping("/delete/{id}")
@@ -112,7 +113,7 @@ public class UserController {
                          final RedirectAttributes redirectAttributes) {
         userService.delete(id);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
-        return "redirect:/users";
+        return REDIRECT_USERS;
     }
 
 }

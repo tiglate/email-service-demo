@@ -34,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
         this.lastFailedLoginAttempt = user.getLastFailedLoginAttempt();
         this.accountLocked = user.isAccountLocked();
         this.authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .map(role -> new SimpleGrantedAuthority(role.getCode()))
                 .collect(Collectors.toList());
     }
 

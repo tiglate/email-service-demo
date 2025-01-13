@@ -30,8 +30,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String role;
+    @Column(name = "role", nullable = false, unique = true)
+    private String code;
 
     @Column(columnDefinition = "varchar(max)")
     private String description;

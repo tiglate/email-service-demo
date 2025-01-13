@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain formSecurityConfigFilterChain(final HttpSecurity http,
-    		@Value("${formSecurityConfig.rememberMeKey}") final String rememberMeKey) throws Exception {
+    		@Value("${app.security.remember-me-key}") final String rememberMeKey) throws Exception {
         return http
         		.cors(Customizer.withDefaults())
                 .csrf(csrf ->
