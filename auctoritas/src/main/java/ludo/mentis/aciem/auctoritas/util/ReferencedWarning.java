@@ -1,6 +1,7 @@
 package ludo.mentis.aciem.auctoritas.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 public class ReferencedWarning {
 
     private String key = null;
-    private ArrayList<Object> params = new ArrayList<>();
+    private List<Object> params = new ArrayList<>();
 
     public void addParam(final Object param) {
         params.add(param);

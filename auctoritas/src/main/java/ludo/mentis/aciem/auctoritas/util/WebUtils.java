@@ -53,39 +53,45 @@ public class WebUtils {
     }
 
     public static PaginationModel getPaginationModel(final Page<?> page) {
-        if (page.isEmpty()) {
+        if (page == null || page.isEmpty()) {
             return null;
         }
 
-        final ArrayList<PaginationStep> steps = new ArrayList<>();
-        final PaginationStep previous = new PaginationStep();
+        final var previousPageNumber = page.getPageable().isUnpaged() ? 0 : page.previousOrFirstPageable().getPageNumber();
+        final var nextPageNumber = page.getPageable().isUnpaged() ? 0 : page.nextOrLastPageable().getPageNumber();
+
+        final var steps = new ArrayList<PaginationStep>();
+
+        final var previous = new PaginationStep();
         previous.setDisabled(!page.hasPrevious());
-        previous.setLabel(getMessage("pagination.previous"));
-        previous.setUrl(getStepUrl(page, page.previousOrFirstPageable().getPageNumber()));
+        previous.setLabel("Previous");
+        previous.setUrl(getStepUrl(page, previousPageNumber));
         steps.add(previous);
+
         // find a range of up to 5 pages around the current active page
         final int startAt = Math.max(0, Math.min(page.getNumber() - 2, page.getTotalPages() - 5));
         final int endAt = Math.min(startAt + 5, page.getTotalPages());
+
         for (int i = startAt; i < endAt; i++) {
-            final PaginationStep step = new PaginationStep();
+            final var step = new PaginationStep();
             step.setActive(i == page.getNumber());
-            step.setLabel(Integer.toString((i + 1)));
+            step.setLabel("" + (i + 1));
             step.setUrl(getStepUrl(page, i));
             steps.add(step);
         }
-        final PaginationStep next = new PaginationStep();
+
+        final var next = new PaginationStep();
         next.setDisabled(!page.hasNext());
-        next.setLabel(getMessage("pagination.next"));
-        next.setUrl(getStepUrl(page, page.nextOrLastPageable().getPageNumber()));
+        next.setLabel("Next");
+        next.setUrl(getStepUrl(page, nextPageNumber));
         steps.add(next);
 
-        final long rangeStart = page.getNumber() * page.getSize() + 1l;
-        final long rangeEnd = Math.min(rangeStart + page.getSize() - 1, page.getTotalElements());
-        final String range = rangeStart == rangeEnd ? Long.toString(rangeStart) : rangeStart + " - " + rangeEnd;
-        final PaginationModel paginationModel = new PaginationModel();
+        final var rangeStart = (long) page.getNumber() * page.getSize() + 1L;
+        final var rangeEnd = Math.min(rangeStart + page.getSize() - 1, page.getTotalElements());
+        final var range = rangeStart == rangeEnd ? "" + rangeStart : rangeStart + " - " + rangeEnd;
+        final var paginationModel = new PaginationModel();
         paginationModel.setSteps(steps);
-        paginationModel.setElements(getMessage("pagination.elements", range, page.getTotalElements()));
+        paginationModel.setElements(String.format("Item %s of %d", range, page.getTotalElements()));
         return paginationModel;
     }
-
 }

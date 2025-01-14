@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 
 
 public class CustomCollectors {
-	
+
     private CustomCollectors() {
-	}
+        throw new IllegalStateException("No instances for you!");
+    }
 
 	/**
      * Provide a Collector for collecting values from a stream into a LinkedHashMap,
