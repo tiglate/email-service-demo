@@ -9,7 +9,7 @@ import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
 
 public interface SoftwareService {
 
-    Page<SoftwareDTO> findAll(String filter, Pageable pageable);
+    Page<SoftwareDTO> findAll(SoftwareDTO searchDTO, Pageable pageable);
 
     SoftwareDTO get(Integer id);
 

@@ -1,12 +1,16 @@
-package ludo.mentis.aciem.auctoritas.util;
+package ludo.mentis.aciem.auctoritas.controller;
 
 import ludo.mentis.aciem.auctoritas.AuctoritasApplication;
+import ludo.mentis.aciem.auctoritas.config.ControllerConfig;
 import ludo.mentis.aciem.auctoritas.config.DomainConfig;
+import ludo.mentis.aciem.auctoritas.config.WebConfig;
+import ludo.mentis.aciem.auctoritas.security.KeyConfig;
 import ludo.mentis.aciem.auctoritas.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,21 +18,29 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 @Tag("integration")
 @ActiveProfiles("test")
 @SpringBootTest(
-        classes = {AuctoritasApplication.class, DomainConfig.class, SecurityConfig.class},
+        classes = {
+                AuctoritasApplication.class,
+                ControllerConfig.class,
+                DomainConfig.class,
+                WebConfig.class,
+                SecurityConfig.class,
+                KeyConfig.class},
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
-class WebAdviceTest {
+@AutoConfigureMockMvc
+class FaviconControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
@@ -36,9 +48,9 @@ class WebAdviceTest {
     }
 
     @Test
-    void testGetRequestUri() throws Exception {
-        mockMvc.perform(get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("requestUri", "/login"));
+    void testFavicon() throws Exception {
+        mockMvc.perform(get("/favicon.ico"))
+               .andExpect(status().isOk())
+               .andExpect(forwardedUrl("/static/favicon.ico"));
     }
 }

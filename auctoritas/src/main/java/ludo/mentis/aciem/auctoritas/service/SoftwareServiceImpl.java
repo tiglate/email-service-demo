@@ -29,24 +29,12 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
-    public Page<SoftwareDTO> findAll(final String filter, final Pageable pageable) {
-        Page<Software> page;
-        if (filter != null) {
-            Integer integerFilter = null;
-            try {
-                integerFilter = Integer.parseInt(filter);
-            } catch (final NumberFormatException numberFormatException) {
-                // keep null - no parseable input
-            }
-            page = softwareRepository.findAllById(integerFilter, pageable);
-        } else {
-            page = softwareRepository.findAll(pageable);
-        }
-        return new PageImpl<>(page.getContent()
-                .stream()
-                .map(application -> mapToDTO(application, new SoftwareDTO()))
-                .collect(Collectors.toList()),
-                pageable, page.getTotalElements());
+    public Page<SoftwareDTO> findAll(SoftwareDTO searchDTO, Pageable pageable) {
+        return softwareRepository.findAllBySearchCriteria(
+                searchDTO.getCode(),
+                searchDTO.getName(),
+                pageable
+        );
     }
 
     @Override
@@ -81,6 +69,8 @@ public class SoftwareServiceImpl implements SoftwareService {
         softwareDTO.setId(software.getId());
         softwareDTO.setCode(software.getCode());
         softwareDTO.setName(software.getName());
+        softwareDTO.setLastUpdated(software.getLastUpdated());
+        softwareDTO.setDateCreated(software.getDateCreated());
         return softwareDTO;
     }
 
