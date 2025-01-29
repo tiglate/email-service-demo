@@ -12,11 +12,12 @@ import ludo.mentis.aciem.auctoritas.util.WebUtils;
 public class HomeController {
 
     @GetMapping("/")
-    public String index(
+	public final String index(
             @RequestParam(required = false) final Boolean logoutSuccess,
             final Model model) {
         if (logoutSuccess != null && logoutSuccess.equals(Boolean.TRUE)) {
-            model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.logout.success"));
+            model.addAttribute(WebUtils.MSG_INFO,
+            		WebUtils.getMessage("authentication.logout.success"));
         }
         return "home/index";
     }

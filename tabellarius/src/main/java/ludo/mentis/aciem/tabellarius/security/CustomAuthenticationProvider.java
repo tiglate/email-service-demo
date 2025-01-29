@@ -3,6 +3,8 @@ package ludo.mentis.aciem.tabellarius.security;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import ludo.mentis.aciem.tabellarius.service.PublicKeyService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.List;
@@ -27,13 +30,14 @@ import java.util.stream.Collectors;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final RestTemplate restTemplate;
-    private final String authUrl;
-    private final RSAPublicKey publicKey;
+    private final PublicKeyService publicKeyService;
 
-    public CustomAuthenticationProvider(String authUrl, RSAPublicKey publicKey) {
-        this.restTemplate = new RestTemplate();
-        this.authUrl = authUrl;
-        this.publicKey = publicKey;
+    @Value("${app.auth.service.url}")
+    private String authServiceUrl;
+
+    public CustomAuthenticationProvider(PublicKeyService publicKeyService, RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+        this.publicKeyService = publicKeyService;
     }
 
     @Override
@@ -48,8 +52,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
             var userDetails = new User(username, password, authorities);
             return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        } catch (UsernameNotFoundException | ParseException | JOSEException e) {
+        } catch (UsernameNotFoundException | ParseException | PublicKeyException | JOSEException e) {
             throw new AuthenticationException("Authentication failed", e) {
+                private static final long serialVersionUID = -8550290991491789722L;
             };
         }
     }
@@ -60,7 +65,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private String authenticateWithService(String username, String password) {
-        var url = authUrl + "/oauth/token";
+        var url = URI.create(authServiceUrl).resolve("/oauth/token").toString();
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -85,8 +90,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private SignedJWT parseToken(String token) throws ParseException, JOSEException {
+    private SignedJWT parseToken(String token) throws ParseException, JOSEException, PublicKeyException {
         var signedJWT = SignedJWT.parse(token);
+        var publicKey = (RSAPublicKey) publicKeyService.getPublicKey();
         var verifier = new RSASSAVerifier(publicKey);
         if (!signedJWT.verify(verifier)) {
             throw new JOSEException("Invalid token signature");

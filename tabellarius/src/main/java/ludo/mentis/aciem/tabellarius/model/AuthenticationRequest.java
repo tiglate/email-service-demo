@@ -19,7 +19,4 @@ public class AuthenticationRequest {
     @Size(max = 255)
     private String password;
 
-    @NotNull
-    private Boolean rememberMe;
-
 }

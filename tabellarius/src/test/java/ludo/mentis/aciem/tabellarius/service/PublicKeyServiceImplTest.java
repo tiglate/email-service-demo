@@ -41,34 +41,34 @@ class PublicKeyServiceImplTest {
     }
 
     @Test
-    void testGetPublicKeyFromCertsEndpoint_withTestProfile() throws Exception {
+    void testGetPublicKey_withTestProfile() throws Exception {
         when(environment.getActiveProfiles()).thenReturn(new String[]{"test"});
         String dummyPublicKey = KeyUtils.getDummyPublicKey();
         PublicKey publicKey = KeyUtils.getPublicKey(dummyPublicKey);
 
-        PublicKey result = publicKeyService.getPublicKeyFromCertsEndpoint("dummyUrl");
+        PublicKey result = publicKeyService.getPublicKey("dummyUrl");
 
         assertEquals(publicKey, result);
     }
 
     @Test
-    void testGetPublicKeyFromCertsEndpoint_withValidResponse() throws Exception {
+    void testGetPublicKey_withValidResponse() throws Exception {
         when(environment.getActiveProfiles()).thenReturn(new String[]{});
         when(restTemplate.getForObject(anyString(), eq(Map.class))).thenReturn(Map.of("public_key", VALID_PUBLIC_KEY));
 
         var publicKey = KeyUtils.getPublicKey(VALID_PUBLIC_KEY);
 
-        var result = publicKeyService.getPublicKeyFromCertsEndpoint(VALID_URL);
+        var result = publicKeyService.getPublicKey(VALID_URL);
 
         assertEquals(publicKey, result);
     }
 
     @Test
-    void testGetPublicKeyFromCertsEndpoint_withNullResponse() {
+    void testGetPublicKey_withNullResponse() {
         when(environment.getActiveProfiles()).thenReturn(new String[]{});
         when(restTemplate.getForObject(anyString(), eq(Map.class))).thenReturn(null);
 
-        assertThrows(PublicKeyException.class, () -> publicKeyService.getPublicKeyFromCertsEndpoint("invalidUrl"));
+        assertThrows(PublicKeyException.class, () -> publicKeyService.getPublicKey("invalidUrl"));
     }
 
     @Test
@@ -76,6 +76,6 @@ class PublicKeyServiceImplTest {
         when(environment.getActiveProfiles()).thenReturn(new String[]{});
         when(restTemplate.getForObject(anyString(), eq(Map.class))).thenReturn(Map.of("public_key", ""));
 
-        assertThrows(PublicKeyException.class, () -> publicKeyService.getPublicKeyFromCertsEndpoint("invalidUrl"));
+        assertThrows(PublicKeyException.class, () -> publicKeyService.getPublicKey("invalidUrl"));
     }
 }

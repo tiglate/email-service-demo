@@ -3,11 +3,12 @@ package ludo.mentis.aciem.tabellarius.service;
 import ludo.mentis.aciem.tabellarius.security.PublicKeyException;
 import ludo.mentis.aciem.tabellarius.util.KeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.security.PublicKey;
 import java.util.Map;
 
@@ -15,27 +16,30 @@ import java.util.Map;
 public class PublicKeyServiceImpl implements PublicKeyService {
 
     private final Environment environment;
-    private final RestOperations restOperations;
+    private final RestTemplate restTemplate;
+
+    @Value("${app.auth.service.url}")
+    private String authServiceUrl;
 
     @Autowired
-    public PublicKeyServiceImpl(Environment environment) {
+    public PublicKeyServiceImpl(Environment environment, RestTemplate restTemplate) {
         this.environment = environment;
-        this.restOperations = new RestTemplate();
-    }
-
-    public PublicKeyServiceImpl(Environment environment, RestOperations restOperations) {
-        this.environment = environment;
-        this.restOperations = restOperations;
+        this.restTemplate = restTemplate;
     }
 
     @Override
-    public PublicKey getPublicKeyFromCertsEndpoint(String certsUrl) throws PublicKeyException {
+    public PublicKey getPublicKey() throws PublicKeyException {
+        return getPublicKey(URI.create(authServiceUrl).resolve("/oauth/certs").toString());
+    }
+
+    @Override
+    public PublicKey getPublicKey(String certsUrl) throws PublicKeyException {
         String publicKeyString;
 
         if (isTestProfileActive()) {
             publicKeyString = KeyUtils.getDummyPublicKey();
         } else {
-            var response = restOperations.getForObject(certsUrl, Map.class);
+            var response = restTemplate.getForObject(certsUrl, Map.class);
 
             if (response == null) {
                 throw new PublicKeyException("Failed to fetch public key");

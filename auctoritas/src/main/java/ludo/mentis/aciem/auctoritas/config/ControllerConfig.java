@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 public class ControllerConfig {
 
     @InitBinder
-    public void initBinder(final WebDataBinder binder) {
+	public final void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 

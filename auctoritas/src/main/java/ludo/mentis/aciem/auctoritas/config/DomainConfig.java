@@ -23,5 +23,4 @@ public class DomainConfig {
     DateTimeProvider dateTimeProvider() {
         return () -> Optional.of(OffsetDateTime.now());
     }
-
 }

@@ -4,33 +4,35 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import ludo.mentis.aciem.tabellarius.service.PublicKeyService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-    private final PublicKey publicKey;
+    private final PublicKeyService publicKeyService;
 
-    public JwtAuthenticationFilter(PublicKey publicKey) {
+    public JwtAuthenticationFilter(PublicKeyService publicKeyService) {
         super(authentication -> {
             authentication.setAuthenticated(true);
             return authentication;
         });
-        this.publicKey = publicKey;
+        this.publicKeyService = publicKeyService;
     }
 
     @Override
@@ -49,6 +51,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             var signedJWT = SignedJWT.parse(token);
             var jwsObject = JWSObject.parse(token);
 
+            var publicKey = publicKeyService.getPublicKey();
             var verifier = new RSASSAVerifier((RSAPublicKey) publicKey);
             if (!signedJWT.verify(verifier)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token signature");
@@ -74,7 +77,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (ParseException | JOSEException | RuntimeException e) {
+        } catch (ParseException | JOSEException | PublicKeyException | RuntimeException e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
             return;
         }

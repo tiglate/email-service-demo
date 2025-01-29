@@ -5,8 +5,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       data-bs-theme="light">
 <head>
-    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Auctoritas</title>
     <meta charset="utf-8" />
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Auctoritas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
@@ -23,7 +23,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-md">
             <a th:href="@{/}" class="navbar-brand">
-                <img th:src="@{/static/images/logo.png}" alt="Auctoritas" width="30" height="30" class="d-inline-block align-top" style="filter: invert(100%);">
+                <img th:src="@{/static/images/logo.png}" alt="Auctoritas" width="30" height="30" class="d-inline-block align-top">
                 <span class="ps-1">Auctoritas</span>
             </a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"

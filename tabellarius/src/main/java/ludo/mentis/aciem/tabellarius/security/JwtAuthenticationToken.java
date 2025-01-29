@@ -7,6 +7,7 @@ import java.util.Collection;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
+    private static final long serialVersionUID = -6368725567537680251L;
     private final String principal;
 
     public JwtAuthenticationToken(String principal, Collection<? extends GrantedAuthority> authorities) {

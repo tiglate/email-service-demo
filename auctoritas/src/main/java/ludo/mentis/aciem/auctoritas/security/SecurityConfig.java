@@ -48,6 +48,7 @@ public class SecurityConfig {
                         "/static/**",
                         "/webjars/**",
                         "/oauth/**",
+                        "/actuator/**",
                         "/favicon.ico").permitAll()
                 	.anyRequest().authenticated())
                 .formLogin(form -> form
