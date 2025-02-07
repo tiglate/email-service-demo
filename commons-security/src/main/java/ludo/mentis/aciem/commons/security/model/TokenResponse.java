@@ -1,6 +1,8 @@
-package ludo.mentis.aciem.tesserarius.model;
+package ludo.mentis.aciem.commons.security.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
 
 public class TokenResponse {
 
@@ -24,5 +26,17 @@ public class TokenResponse {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TokenResponse that = (TokenResponse) o;
+        return Objects.equals(accessToken, that.accessToken) && Objects.equals(tokenType, that.tokenType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accessToken, tokenType);
     }
 }

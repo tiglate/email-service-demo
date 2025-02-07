@@ -1,6 +1,7 @@
 package ludo.mentis.aciem.tesserarius.controller;
 
-import ludo.mentis.aciem.tesserarius.client.AuctoritasClient;
+import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
+import ludo.mentis.aciem.commons.security.service.OAuthService;
 import ludo.mentis.aciem.tesserarius.client.EmailClient;
 import ludo.mentis.aciem.tesserarius.model.AttachmentDTO;
 import ludo.mentis.aciem.tesserarius.model.BodyType;
@@ -11,23 +12,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
 public class HomeController {
 
+    private final OAuthService oauthService;
     private final EmailClient emailClient;
-    private final AuctoritasClient auctoritasClient;
 
-    public HomeController(EmailClient emailClient, AuctoritasClient auctoritasClient) {
+    public HomeController(EmailClient emailClient, OAuthService oauthService) {
         this.emailClient = emailClient;
-        this.auctoritasClient = auctoritasClient;
+        this.oauthService = oauthService;
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model) throws PublicKeyException {
         model.addAttribute("contentTile", "Public Key");
-        model.addAttribute("content", auctoritasClient.getPublicKey().getContent());
+        model.addAttribute("content", Base64.getEncoder().encodeToString(oauthService.getPublicKey().getEncoded()));
         return "home/index";
     }
 

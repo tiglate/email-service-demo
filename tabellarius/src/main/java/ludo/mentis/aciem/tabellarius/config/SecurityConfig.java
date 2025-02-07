@@ -1,6 +1,8 @@
-package ludo.mentis.aciem.tabellarius.security;
+package ludo.mentis.aciem.tabellarius.config;
 
-import ludo.mentis.aciem.tabellarius.service.PublicKeyService;
+import ludo.mentis.aciem.commons.security.CustomAuthenticationProvider;
+import ludo.mentis.aciem.commons.security.JwtAuthenticationFilter;
+import ludo.mentis.aciem.commons.security.service.OAuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -47,8 +48,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationProvider authenticationProvider(PublicKeyService publicKeyService, RestTemplate restTemplate) {
-        return new CustomAuthenticationProvider(publicKeyService, restTemplate);
+    AuthenticationProvider authenticationProvider(OAuthService oauthService) {
+        return new CustomAuthenticationProvider(oauthService);
     }
 }
 

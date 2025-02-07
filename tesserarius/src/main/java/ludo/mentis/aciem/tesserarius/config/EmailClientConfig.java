@@ -2,19 +2,22 @@ package ludo.mentis.aciem.tesserarius.config;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.nimbusds.jwt.SignedJWT;
 import feign.RequestInterceptor;
-import ludo.mentis.aciem.tesserarius.client.AuctoritasClient;
-import ludo.mentis.aciem.tesserarius.model.TokenResponse;
+import ludo.mentis.aciem.commons.security.exception.InvalidSignatureException;
+import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
+import ludo.mentis.aciem.commons.security.service.OAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class EmailClientConfig {
 
-    private final AuctoritasClient auctoritasClient;
+    private final OAuthService oauthService;
 
     @Value("${tabellarius.service.username}")
     private String username;
@@ -24,8 +27,8 @@ public class EmailClientConfig {
 
     private final Cache<String, String> tokenCache;
 
-    public EmailClientConfig(AuctoritasClient auctoritasClient) {
-        this.auctoritasClient = auctoritasClient;
+    public EmailClientConfig(OAuthService oauthService) {
+        this.oauthService = oauthService;
         this.tokenCache = Caffeine.newBuilder()
                 .expireAfterWrite(1, TimeUnit.HOURS)
                 .build();
@@ -38,8 +41,14 @@ public class EmailClientConfig {
 
     private String getBearerToken() {
         return tokenCache.get("token", key -> {
-            TokenResponse response = auctoritasClient.getToken(username, password);
-            return response.getTokenType() + " " + response.getAccessToken();
+            SignedJWT response = null;
+            try {
+                response = oauthService.getToken(username, password);
+            } catch (ParseException | PublicKeyException | InvalidSignatureException e) {
+                throw new RuntimeException(e);
+            }
+
+            return "Bearer " + response.serialize();
         });
     }
 }

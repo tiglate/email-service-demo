@@ -1,12 +1,13 @@
-package ludo.mentis.aciem.tesserarius.model;
+package ludo.mentis.aciem.commons.security.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ludo.mentis.aciem.tesserarius.exception.PublicKeyException;
+import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
 
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.Objects;
 
 public class PublicKeyResponse {
 
@@ -39,5 +40,17 @@ public class PublicKeyResponse {
         return publicKeyString.replace("-----BEGIN PUBLIC KEY-----", "")
                 .replace("-----END PUBLIC KEY-----", "")
                 .replaceAll("\\s+", "");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PublicKeyResponse that = (PublicKeyResponse) o;
+        return Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(content);
     }
 }

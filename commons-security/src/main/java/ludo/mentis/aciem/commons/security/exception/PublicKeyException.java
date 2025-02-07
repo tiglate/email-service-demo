@@ -1,4 +1,4 @@
-package ludo.mentis.aciem.tabellarius.security;
+package ludo.mentis.aciem.commons.security.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
