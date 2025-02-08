@@ -1,9 +1,10 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import com.nimbusds.jose.JOSEException;
+import java.util.Map;
+
 import org.springframework.security.core.AuthenticationException;
 
-import java.util.Map;
+import com.nimbusds.jose.JOSEException;
 
 public interface AuthService {
     Map<String, String> generateToken(String username, String password) throws AuthenticationException, JOSEException;

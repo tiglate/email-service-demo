@@ -1,8 +1,8 @@
 package ludo.mentis.aciem.tabellarius.domain;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

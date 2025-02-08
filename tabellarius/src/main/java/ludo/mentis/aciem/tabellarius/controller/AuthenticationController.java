@@ -1,7 +1,7 @@
 package ludo.mentis.aciem.tabellarius.controller;
 
+import ludo.mentis.aciem.commons.web.FlashMessages;
 import ludo.mentis.aciem.tabellarius.model.AuthenticationRequest;
-import ludo.mentis.aciem.tabellarius.util.FlashMessages;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

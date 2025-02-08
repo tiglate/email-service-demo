@@ -1,6 +1,5 @@
 package ludo.mentis.aciem.tabellarius.service;
 
-import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import ludo.mentis.aciem.tabellarius.domain.*;
 import ludo.mentis.aciem.tabellarius.model.MessageAssembler;
@@ -10,7 +9,9 @@ import ludo.mentis.aciem.tabellarius.util.LogHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -62,13 +63,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void logEmailDetails(Message message) {
-        var recipients = String.join("; ",
-                message.getRecipients()
-                       .stream()
-                       .filter(r -> r.getType() == RecipientType.TO)
-                       .map(Recipient::getEmail)
-                       .toList()
-        );
+        var recipients = message.getRecipients()
+               .stream()
+               .filter(r -> r.getType() == RecipientType.TO)
+               .map(Recipient::getEmail)
+               .collect(Collectors.joining("; "));
         log.info("Sending email from {} to {} with subject '{}'", message.getFrom(), recipients, message.getSubject());
     }
 }

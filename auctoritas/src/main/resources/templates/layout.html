@@ -1,60 +1,69 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">[[#{app.title}]]</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" rel="stylesheet" />
-        <link th:href="@{/css/app.css}" rel="stylesheet" />
-        <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}" defer></script>
-        <script th:src="@{/webjars/htmx.org/2.0.4/dist/htmx.min.js}" defer></script>
-        <script th:src="@{/js/app.js}" defer></script>
-    </head>
-    <body hx-boost="true">
-        <header class="bg-light">
-            <div class="container">
-                <nav class="navbar navbar-light navbar-expand-md">
-                    <a th:href="@{/}" class="navbar-brand">
-                        <img th:src="@{/images/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
-                        <span class="ps-1">[[#{app.title}]]</span>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-                            th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarToggle">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="navbar-item">
-                                <a th:href="@{/}" class="nav-link">[[#{navigation.home}]]</a>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarEntitiesLink" role="button"
-                                        aria-expanded="false">[[#{navigation.entities}]]</a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-                                    <li><a th:href="@{/users}" class="dropdown-item">[[#{user.list.headline}]]</a></li>
-                                    <li><a th:href="@{/softwares}" class="dropdown-item">[[#{software.list.headline}]]</a></li>
-                                </ul>
-                            </li>
-                            <li class="navbar-item">
-                                <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="nav-link">[[#{navigation.login}]]</a>
-                                <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="nav-link">
-                                    <input th:value="#{navigation.logout}" type="submit" class="unset" />
-                                </form>
-                            </li>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Auctoritas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/flatpickr/dist/flatpickr.min.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/app.css}" rel="stylesheet" />
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
+    <script th:src="@{/webjars/htmx.org/dist/htmx.min.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/dist/flatpickr.min.js}" defer></script>
+    <script th:src="@{/static/js/app.js}" defer></script>
+</head>
+<body hx-boost="true">
+<header id="main-header" data-bs-theme="dark">
+    <div class="container">
+        <nav class="navbar navbar-expand-md">
+            <a th:href="@{/}" class="navbar-brand">
+                <img th:src="@{/static/images/logo.png}" alt="Auctoritas" width="30" height="30" class="d-inline-block align-top">
+                <span class="ps-1">Auctoritas</span>
+            </a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
+                    aria-label="Toggle navigation" aria-controls="navbarToggle" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <ul class="navbar-nav ms-auto">
+                    <li class="navbar-item">
+                        <a th:href="@{/}" class="nav-link">Home</a>
+                    </li>
+                    <li class="navbar-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarEntitiesLink" role="button"
+                           aria-expanded="false">Menu</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
+                            <li><a th:href="@{/users}" class="dropdown-item">[[#{user.list.headline}]]</a></li>
+                            <li><a th:href="@{/softwares}" class="dropdown-item">Applications</a></li>
                         </ul>
-                    </div>
-                </nav>
+                    </li>
+                    <li class="navbar-item">
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="nav-link">Login</a>
+                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="nav-link">
+                            <input value="Logout" type="submit" class="unset" />
+                        </form>
+                    </li>
+                </ul>
             </div>
-        </header>
-        <main class="my-5">
-            <div class="container">
-                <p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
-                <p th:if="${MSG_INFO}" class="alert alert-info mb-4" role="alert">[[${MSG_INFO}]]</p>
-                <p th:if="${MSG_ERROR}" class="alert alert-danger mb-4" role="alert">[[${MSG_ERROR}]]</p>
-                <div layout:fragment="content" />
-            </div>
-        </main>
-    </body>
+        </nav>
+    </div>
+</header>
+<main class="my-5">
+    <div class="container">
+        <!--/*@thymesVar id="MSG_SUCCESS" type="java.lang.String"*/-->
+        <!--/*@thymesVar id="MSG_INFO" type="java.lang.String"*/-->
+        <!--/*@thymesVar id="MSG_ERROR" type="java.lang.String"*/-->
+        <p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
+        <p th:if="${MSG_INFO}" class="alert alert-info mb-4" role="alert">[[${MSG_INFO}]]</p>
+        <p th:if="${MSG_ERROR}" class="alert alert-danger mb-4" role="alert">[[${MSG_ERROR}]]</p>
+        <div layout:fragment="content"></div>
+    </div>
+</main>
+</body>
 </html>

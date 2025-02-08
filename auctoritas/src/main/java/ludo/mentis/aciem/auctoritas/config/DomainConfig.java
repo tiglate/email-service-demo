@@ -2,6 +2,7 @@ package ludo.mentis.aciem.auctoritas.config;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DomainConfig {
 
     @Bean(name = "auditingDateTimeProvider")
-    public DateTimeProvider dateTimeProvider() {
+    DateTimeProvider dateTimeProvider() {
         return () -> Optional.of(OffsetDateTime.now());
     }
-
 }

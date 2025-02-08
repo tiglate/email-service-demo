@@ -1,16 +1,16 @@
 package ludo.mentis.aciem.auctoritas.service;
 
+import ludo.mentis.aciem.commons.web.ReferencedWarning;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import ludo.mentis.aciem.auctoritas.domain.Software;
 import ludo.mentis.aciem.auctoritas.domain.User;
+import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
-import ludo.mentis.aciem.auctoritas.util.NotFoundException;
-import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 
 @Service
@@ -26,24 +26,12 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
-    public Page<SoftwareDTO> findAll(final String filter, final Pageable pageable) {
-        Page<Software> page;
-        if (filter != null) {
-            Integer integerFilter = null;
-            try {
-                integerFilter = Integer.parseInt(filter);
-            } catch (final NumberFormatException numberFormatException) {
-                // keep null - no parseable input
-            }
-            page = softwareRepository.findAllById(integerFilter, pageable);
-        } else {
-            page = softwareRepository.findAll(pageable);
-        }
-        return new PageImpl<>(page.getContent()
-                .stream()
-                .map(application -> mapToDTO(application, new SoftwareDTO()))
-                .toList(),
-                pageable, page.getTotalElements());
+    public Page<SoftwareDTO> findAll(SoftwareDTO searchDTO, Pageable pageable) {
+        return softwareRepository.findAllBySearchCriteria(
+                searchDTO.getCode(),
+                searchDTO.getName(),
+                pageable
+        );
     }
 
     @Override
@@ -78,6 +66,8 @@ public class SoftwareServiceImpl implements SoftwareService {
         softwareDTO.setId(software.getId());
         softwareDTO.setCode(software.getCode());
         softwareDTO.setName(software.getName());
+        softwareDTO.setLastUpdated(software.getLastUpdated());
+        softwareDTO.setDateCreated(software.getDateCreated());
         return softwareDTO;
     }
 

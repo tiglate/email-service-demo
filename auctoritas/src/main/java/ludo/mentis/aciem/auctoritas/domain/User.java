@@ -1,14 +1,27 @@
 package ludo.mentis.aciem.auctoritas.domain;
 
-import jakarta.persistence.*;
-
 import java.time.OffsetDateTime;
 import java.util.Set;
-import lombok.Getter;
-import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
@@ -28,6 +41,21 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private boolean enabled = true;
+
+    @Column
+    private OffsetDateTime accountExpirationDate;
+
+    @Column(nullable = false)
+    private int failedLoginAttempts = 0;
+
+    @Column(columnDefinition = "datetime2")
+    private OffsetDateTime lastFailedLoginAttempt;
+
+    @Column(nullable = false)
+    private boolean accountLocked = false;
 
     @ManyToMany
     @JoinTable(

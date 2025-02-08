@@ -1,7 +1,8 @@
 package ludo.mentis.aciem.tabellarius.service;
 
-import jakarta.mail.MessagingException;
 import ludo.mentis.aciem.tabellarius.domain.Message;
+
+import javax.mail.MessagingException;
 
 public interface SendMailService {
 

@@ -1,6 +1,5 @@
 package ludo.mentis.aciem.tabellarius.service;
 
-import jakarta.mail.MessagingException;
 import ludo.mentis.aciem.tabellarius.domain.BodyType;
 import ludo.mentis.aciem.tabellarius.domain.Message;
 import ludo.mentis.aciem.tabellarius.util.LogHelper;
@@ -8,6 +7,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import javax.mail.MessagingException;
 
 @Component
 public class SendMailServiceImpl implements SendMailService {

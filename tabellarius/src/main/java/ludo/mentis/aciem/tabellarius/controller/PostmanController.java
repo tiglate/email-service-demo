@@ -1,7 +1,5 @@
 package ludo.mentis.aciem.tabellarius.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import ludo.mentis.aciem.tabellarius.model.AttachmentDTO;
 import ludo.mentis.aciem.tabellarius.model.MessageDTO;
 import ludo.mentis.aciem.tabellarius.service.EmailService;
@@ -15,7 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PostmanController {
@@ -46,7 +47,7 @@ public class PostmanController {
         if (files != null && !files.isEmpty()) {
             var attachmentDTOs = files.stream()
                     .map(AttachmentDTO::new)
-                    .toList();
+                    .collect(Collectors.toList());
             messageDTO.setAttachments(attachmentDTOs);
         }
         var senderIp = request.getRemoteAddr();

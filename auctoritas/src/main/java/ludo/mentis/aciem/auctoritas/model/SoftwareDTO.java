@@ -1,13 +1,20 @@
 package ludo.mentis.aciem.auctoritas.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.OffsetDateTime;
 
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SoftwareDTO {
 
     private Integer id;
@@ -18,5 +25,9 @@ public class SoftwareDTO {
     @NotNull
     @Size(max = 255)
     private String name;
+
+    private OffsetDateTime dateCreated;
+
+    private OffsetDateTime lastUpdated;
 
 }
