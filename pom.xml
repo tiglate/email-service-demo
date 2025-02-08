@@ -12,7 +12,6 @@
         <sonar.organization>ampliar-project</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <spring-boot.version>2.7.18</spring-boot.version>
-        <javacoco.version>0.8.12</javacoco.version>
     </properties>
 
     <modules>
@@ -54,11 +53,6 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.12</version>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -71,7 +65,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${javacoco.version}</version>
+                        <version>0.8.12</version>
                         <executions>
                             <execution>
                                 <id>prepare-agent</id>
