@@ -45,7 +45,7 @@ public class SendMailServiceImpl implements SendMailService {
         helper.setText(message.getBody(), message.getBodyType() == BodyType.HTML);
 
         for (var attachment : message.getAttachments()) {
-            helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getAttachment()));
+            helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getData()));
         }
 
         emailSender.send(mimeMessage);

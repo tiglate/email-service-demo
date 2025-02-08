@@ -47,7 +47,7 @@ class SendMailServiceImplTest {
         var attachment = new Attachment();
         attachment.setMessage(message);
         attachment.setFileName("test.txt");
-        attachment.setAttachment(new byte[]{1, 2, 3});
+        attachment.setData(new byte[]{1, 2, 3});
         message.getAttachments().add(attachment);
 
         var mimeMessage = mock(MimeMessage.class);

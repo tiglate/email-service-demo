@@ -45,7 +45,7 @@ class MessageAssemblerTest {
         assertEquals(1, message.getAttachments().size());
         assertEquals(attachmentDTO.getFileName(), message.getAttachments().get(0).getFileName());
         assertEquals(attachmentDTO.getFileType(), message.getAttachments().get(0).getFileType());
-        assertArrayEquals(attachmentDTO.getAttachment(), message.getAttachments().get(0).getAttachment());
+        assertArrayEquals(attachmentDTO.getAttachment(), message.getAttachments().get(0).getData());
     }
 
     @Test
@@ -81,7 +81,7 @@ class MessageAssemblerTest {
         var attachment = new Attachment();
         attachment.setFileName("test.txt");
         attachment.setFileType("text/plain");
-        attachment.setAttachment(new byte[]{1, 2, 3});
+        attachment.setData(new byte[]{1, 2, 3});
         attachment.setMessage(message);
         message.getAttachments().add(attachment);
 
@@ -105,6 +105,6 @@ class MessageAssemblerTest {
         assertEquals(1, messageDTO.getAttachments().size());
         assertEquals(attachment.getFileName(), messageDTO.getAttachments().get(0).getFileName());
         assertEquals(attachment.getFileType(), messageDTO.getAttachments().get(0).getFileType());
-        assertArrayEquals(attachment.getAttachment(), messageDTO.getAttachments().get(0).getAttachment());
+        assertArrayEquals(attachment.getData(), messageDTO.getAttachments().get(0).getAttachment());
     }
 }

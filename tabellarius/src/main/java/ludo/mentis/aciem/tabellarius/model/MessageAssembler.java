@@ -56,7 +56,7 @@ public final class MessageAssembler {
                 attachment.setMessage(message);
                 attachment.setFileName(attachmentDTO.getFileName());
                 attachment.setFileType(attachmentDTO.getFileType());
-                attachment.setAttachment(attachmentDTO.getAttachment());
+                attachment.setData(attachmentDTO.getAttachment());
                 message.getAttachments().add(attachment);
             }
         }
@@ -98,7 +98,7 @@ public final class MessageAssembler {
                 var attachmentDTO = new AttachmentDTO(
                         attachment.getFileName(),
                         attachment.getFileType(),
-                        attachment.getAttachment()
+                        attachment.getData()
                 );
                 messageDTO.getAttachments().add(attachmentDTO);
             }

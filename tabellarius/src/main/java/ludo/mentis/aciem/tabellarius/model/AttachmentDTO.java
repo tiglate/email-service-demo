@@ -1,7 +1,5 @@
 package ludo.mentis.aciem.tabellarius.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,8 +7,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.IOException;
 
-@Getter
-@Setter
 public class AttachmentDTO {
 
     public AttachmentDTO() {
@@ -58,4 +54,28 @@ public class AttachmentDTO {
     @NotNull
     @Size(max = 255)
     private String fileType;
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
 }

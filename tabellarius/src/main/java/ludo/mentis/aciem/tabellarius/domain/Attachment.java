@@ -1,12 +1,9 @@
 package ludo.mentis.aciem.tabellarius.domain;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_attachment")
-@Data
 public class Attachment {
 
     @Id
@@ -19,11 +16,51 @@ public class Attachment {
     private Message message;
 
     @Column(name = "attachment", nullable = false, columnDefinition = "varbinary(MAX)")
-    private byte[] attachment;
+    private byte[] data;
 
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
     @Column(name = "file_type", nullable = false)
     private String fileType;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] attachment) {
+        this.data = attachment;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
 }

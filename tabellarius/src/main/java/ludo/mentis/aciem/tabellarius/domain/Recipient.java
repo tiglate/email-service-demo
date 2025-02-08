@@ -1,12 +1,9 @@
 package ludo.mentis.aciem.tabellarius.domain;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_recipient")
-@Data
 public class Recipient {
 
     @Id
@@ -24,4 +21,36 @@ public class Recipient {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 3)
     private RecipientType type;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public RecipientType getType() {
+        return type;
+    }
+
+    public void setType(RecipientType type) {
+        this.type = type;
+    }
 }

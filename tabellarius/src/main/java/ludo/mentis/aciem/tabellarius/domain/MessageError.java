@@ -1,12 +1,10 @@
 package ludo.mentis.aciem.tabellarius.domain;
 
-import lombok.Data;
-
+import java.util.Arrays;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_message_error")
-@Data
 public class MessageError {
 
     @Id
@@ -26,6 +24,38 @@ public class MessageError {
 
     public void fromException(Exception e) {
         this.content = e.getMessage();
-        this.stackTrace = e.getStackTrace().toString();
+        this.stackTrace = Arrays.toString(e.getStackTrace());
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
     }
 }

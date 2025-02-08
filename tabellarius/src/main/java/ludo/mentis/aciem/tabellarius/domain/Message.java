@@ -2,9 +2,6 @@ package ludo.mentis.aciem.tabellarius.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_message")
-@Data
 public class Message {
 
     public Message() {
@@ -44,13 +40,75 @@ public class Message {
     @OneToOne(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private MessageError error;
 
-    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recipient> recipients;
 
-    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attachment> attachments;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public BodyType getBodyType() {
+        return bodyType;
+    }
+
+    public void setBodyType(BodyType bodyType) {
+        this.bodyType = bodyType;
+    }
+
+    public MessageLog getLog() {
+        return log;
+    }
+
+    public void setLog(MessageLog log) {
+        this.log = log;
+    }
+
+    public MessageError getError() {
+        return error;
+    }
+
+    public void setError(MessageError error) {
+        this.error = error;
+    }
+
+    public List<Recipient> getRecipients() {
+        return recipients;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
 
     @Override
     public String toString() {

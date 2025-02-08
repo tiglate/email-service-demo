@@ -76,7 +76,7 @@ class MessageRepositoryTest {
         assertThat(foundAttachment.getMessage().getId()).isEqualTo(savedMessage.getId());
         assertThat(foundAttachment.getFileName()).isEqualTo("prize_details2.pdf");
         assertThat(foundAttachment.getFileType()).isEqualTo("application/pdf");
-        assertThat(new String(foundAttachment.getAttachment())).isEqualTo("test string");
+        assertThat(new String(foundAttachment.getData())).isEqualTo("test string");
     }
 
     @Test
@@ -99,7 +99,7 @@ class MessageRepositoryTest {
         var updatedAttachment = savedMessage.getAttachments().get(0);
         updatedAttachment.setFileName("updated_prize_details.pdf");
         updatedAttachment.setFileType("application/updated-pdf");
-        updatedAttachment.setAttachment("updated test string".getBytes());
+        updatedAttachment.setData("updated test string".getBytes());
 
         var updatedMessage = messageRepository.save(savedMessage);
 
@@ -129,7 +129,7 @@ class MessageRepositoryTest {
         assertThat(savedAttachment.getMessage().getId()).isEqualTo(updatedMessage.getId());
         assertThat(savedAttachment.getFileName()).isEqualTo("updated_prize_details.pdf");
         assertThat(savedAttachment.getFileType()).isEqualTo("application/updated-pdf");
-        assertThat(new String(savedAttachment.getAttachment())).isEqualTo("updated test string");
+        assertThat(new String(savedAttachment.getData())).isEqualTo("updated test string");
     }
 
     @Test
@@ -166,7 +166,7 @@ class MessageRepositoryTest {
         attachment.setMessage(message);
         attachment.setFileName("prize_details2.pdf");
         attachment.setFileType("application/pdf");
-        attachment.setAttachment("test string".getBytes());
+        attachment.setData("test string".getBytes());
 
         message.getRecipients().add(recipient);
         message.getAttachments().add(attachment);

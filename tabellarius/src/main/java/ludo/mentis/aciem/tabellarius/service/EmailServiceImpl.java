@@ -1,11 +1,12 @@
 package ludo.mentis.aciem.tabellarius.service;
 
-import lombok.extern.slf4j.Slf4j;
 import ludo.mentis.aciem.tabellarius.domain.*;
 import ludo.mentis.aciem.tabellarius.model.MessageAssembler;
 import ludo.mentis.aciem.tabellarius.model.MessageDTO;
 import ludo.mentis.aciem.tabellarius.repos.MessageRepository;
 import ludo.mentis.aciem.tabellarius.util.LogHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,12 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class EmailServiceImpl implements EmailService {
 
     private final MessageRepository repository;
     private final SendMailService sendMailService;
+
+    private final Logger log = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Value("${app.email.from}")
     private String from;
