@@ -1,33 +1,16 @@
 package ludo.mentis.aciem.auctoritas.domain;
 
-import java.time.OffsetDateTime;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.Set;
 
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
 @Table(name = "tb_user")
 public class User {
 
@@ -77,4 +60,99 @@ public class User {
     @Column(nullable = false, columnDefinition = "datetime2")
     private OffsetDateTime lastUpdated;
 
+    public Integer getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public OffsetDateTime getAccountExpirationDate() {
+        return this.accountExpirationDate;
+    }
+
+    public int getFailedLoginAttempts() {
+        return this.failedLoginAttempts;
+    }
+
+    public OffsetDateTime getLastFailedLoginAttempt() {
+        return this.lastFailedLoginAttempt;
+    }
+
+    public boolean isAccountLocked() {
+        return this.accountLocked;
+    }
+
+    public Set<Role> getRoles() {
+        return this.roles;
+    }
+
+    public Software getSoftware() {
+        return this.software;
+    }
+
+    public OffsetDateTime getDateCreated() {
+        return this.dateCreated;
+    }
+
+    public OffsetDateTime getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setAccountExpirationDate(OffsetDateTime accountExpirationDate) {
+        this.accountExpirationDate = accountExpirationDate;
+    }
+
+    public void setFailedLoginAttempts(int failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
+    }
+
+    public void setLastFailedLoginAttempt(OffsetDateTime lastFailedLoginAttempt) {
+        this.lastFailedLoginAttempt = lastFailedLoginAttempt;
+    }
+
+    public void setAccountLocked(boolean accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void setSoftware(Software software) {
+        this.software = software;
+    }
+
+    public void setDateCreated(OffsetDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setLastUpdated(OffsetDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }

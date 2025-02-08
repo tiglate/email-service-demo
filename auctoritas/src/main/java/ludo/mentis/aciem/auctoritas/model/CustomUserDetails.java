@@ -1,20 +1,17 @@
 package ludo.mentis.aciem.auctoritas.model;
 
-import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Getter;
+import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-@Getter
 public class CustomUserDetails implements UserDetails {
 
-	private static final long serialVersionUID = 6087081873305564026L;
-	private final Integer id;
+    private static final long serialVersionUID = 6087081873305564026L;
+    private final Integer id;
     private final String username;
     private final String password;
     private final boolean enabled;
@@ -71,5 +68,25 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public OffsetDateTime getAccountExpirationDate() {
+        return this.accountExpirationDate;
+    }
+
+    public int getFailedLoginAttempts() {
+        return this.failedLoginAttempts;
+    }
+
+    public OffsetDateTime getLastFailedLoginAttempt() {
+        return this.lastFailedLoginAttempt;
+    }
+
+    public boolean isAccountLocked() {
+        return this.accountLocked;
     }
 }

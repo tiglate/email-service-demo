@@ -1,27 +1,15 @@
 package ludo.mentis.aciem.auctoritas.domain;
 
-import java.time.OffsetDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
 @Table(name = "tb_software")
 public class Software {
 
@@ -44,4 +32,43 @@ public class Software {
     @Column(nullable = false, columnDefinition = "datetime2")
     private OffsetDateTime lastUpdated;
 
+    public Integer getId() {
+        return this.id;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public OffsetDateTime getDateCreated() {
+        return this.dateCreated;
+    }
+
+    public OffsetDateTime getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateCreated(OffsetDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setLastUpdated(OffsetDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }

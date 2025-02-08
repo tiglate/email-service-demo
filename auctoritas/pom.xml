@@ -10,7 +10,7 @@
     </parent>
     <groupId>ludo.mentis.aciem</groupId>
     <artifactId>auctoritas</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>auctoritas</name>
 
     <properties>
@@ -75,11 +75,6 @@
             <version>3.2.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
@@ -152,6 +147,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -186,17 +182,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <profiles>
-                        <profile>local</profile>
-                    </profiles>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>pl.project13.maven</groupId>

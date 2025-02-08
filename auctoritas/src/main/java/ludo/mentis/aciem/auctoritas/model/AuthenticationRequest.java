@@ -3,12 +3,7 @@ package ludo.mentis.aciem.auctoritas.model;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Getter;
-import lombok.Setter;
 
-
-@Getter
-@Setter
 public class AuthenticationRequest {
 
     @NotNull
@@ -22,4 +17,27 @@ public class AuthenticationRequest {
     @NotNull
     private Boolean rememberMe;
 
+    public @NotNull @Size(max = 255) String getUsername() {
+        return this.username;
+    }
+
+    public @NotNull @Size(max = 72) String getPassword() {
+        return this.password;
+    }
+
+    public @NotNull Boolean getRememberMe() {
+        return this.rememberMe;
+    }
+
+    public void setUsername(@NotNull @Size(max = 255) String username) {
+        this.username = username;
+    }
+
+    public void setPassword(@NotNull @Size(max = 72) String password) {
+        this.password = password;
+    }
+
+    public void setRememberMe(@NotNull Boolean rememberMe) {
+        this.rememberMe = rememberMe;
+    }
 }

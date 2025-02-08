@@ -8,6 +8,8 @@ class MatzatiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// This method is intentionally left empty.
+		// Its purpose is to test if the Spring Boot application context loads successfully.
 	}
 
 }

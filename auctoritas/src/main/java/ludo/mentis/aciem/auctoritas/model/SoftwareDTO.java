@@ -2,19 +2,9 @@ package ludo.mentis.aciem.auctoritas.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.OffsetDateTime;
 
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class SoftwareDTO {
 
     private Integer id;
@@ -30,4 +20,54 @@ public class SoftwareDTO {
 
     private OffsetDateTime lastUpdated;
 
+    public SoftwareDTO(Integer id, @Size(max = 3) String code, @NotNull @Size(max = 255) String name, OffsetDateTime dateCreated, OffsetDateTime lastUpdated) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
+    }
+
+    public SoftwareDTO() {
+    }
+
+    public Integer getId() {
+        return this.id;
+    }
+
+    public @Size(max = 3) String getCode() {
+        return this.code;
+    }
+
+    public @NotNull @Size(max = 255) String getName() {
+        return this.name;
+    }
+
+    public OffsetDateTime getDateCreated() {
+        return this.dateCreated;
+    }
+
+    public OffsetDateTime getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCode(@Size(max = 3) String code) {
+        this.code = code;
+    }
+
+    public void setName(@NotNull @Size(max = 255) String name) {
+        this.name = name;
+    }
+
+    public void setDateCreated(OffsetDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public void setLastUpdated(OffsetDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }
