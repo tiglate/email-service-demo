@@ -22,7 +22,7 @@ If this library is available in your company's JFrog Artifactory, add the follow
 <dependency>
     <groupId>ludo.mentis.aciem</groupId>
     <artifactId>commons-security</artifactId>
-    <version>1.0.0</version>
+    <version>TYPE THE VERSION NUMBER HERE</version>
 </dependency>
 ```
 
@@ -62,4 +62,3 @@ public class AppConfig {
 
 *   **Spring Cloud Version:** Ensure your application uses the same Spring Cloud version as this library to avoid compatibility issues.
 *   **Spring Boot Version:** Use the same Spring Boot version as this library to maintain compatibility.
-```
