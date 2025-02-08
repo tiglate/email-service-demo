@@ -3,6 +3,8 @@ package ludo.mentis.aciem.commons.security;
 import ludo.mentis.aciem.commons.security.exception.InvalidSignatureException;
 import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
 import ludo.mentis.aciem.commons.security.service.OAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +17,8 @@ import java.text.ParseException;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final OAuthService oauthService;
+
+    private final Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
     public CustomAuthenticationProvider(OAuthService oauthService) {
         this.oauthService = oauthService;
@@ -31,6 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             var userDetails = new User(username, password, authorities);
             return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
         } catch (ParseException | PublicKeyException | InvalidSignatureException | AccessDeniedException e) {
+            log.error("Error to authenticate user: {}. Message: {}", username, e.getMessage());
             throw new AuthenticationException("Authentication failed", e) {
                 private static final long serialVersionUID = -8550290991491789722L;
             };

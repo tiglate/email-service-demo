@@ -27,10 +27,12 @@ public class PublicKeyResponse {
             return null;
         }
         var publicKeyPEM = getPublicKeyPEM(content);
-        var decoded = Base64.getDecoder().decode(publicKeyPEM);
-        var keySpec = new X509EncodedKeySpec(decoded);
         try {
+            var decoded = Base64.getDecoder().decode(publicKeyPEM);
+            var keySpec = new X509EncodedKeySpec(decoded);
             return KeyFactory.getInstance("RSA").generatePublic(keySpec);
+        } catch (IllegalArgumentException e) {
+            throw new PublicKeyException("Invalid public key", e);
         } catch (Exception e) {
             throw new PublicKeyException("Failed to parse public key", e);
         }
