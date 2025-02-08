@@ -1,52 +1,9 @@
-# Auctoritas
+# 🔑 Auctoritas: OAuth2 Authorization Server
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
+This module implements an OAuth2 Authorization Server using Java 13 and Spring Boot 2.  It provides a basic UI for managing users, applications, and roles, along with a REST API that mirrors Spring's OAuth2 Authorization Server endpoints and data contracts as closely as possible.
 
-## Development
+A key feature of this implementation is the dynamic generation of the private/public key pair used for JWT token signing.  The pair is generated upon application startup and resides only in the server's RAM. This enhances security by preventing the key pair from being easily compromised.  It does mean, however, that the key pair changes on every restart.
 
-Update your local database connection in `software.properties` or create your own `software-local.properties` file to override
-settings for development.
+## ⚠️ Important Note
 
-During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
-added in the VM options of the Run Configuration after enabling this property in "Modify options".
-
-Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
-[learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
-
-After starting the software it is accessible under `localhost:8080`.
-
-## Testing requirements
-
-To run the tests and build, [Docker](https://www.docker.com/get-started/) must be available on the current system. Due
-to the reuse flag, the container will not shut down after the tests. It can be stopped manually if needed.
-
-## Build
-
-The software can be tested and built using the following command:
-
-```
-mvnw clean package
-```
-
-Start your software with the following command - here with the profile `production`:
-
-```
-java -Dspring.profiles.active=production -jar ./target/auctoritas-0.0.1-SNAPSHOT.jar
-```
-
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as
-environment variable when running the container.
-
-```
-mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=ludo.mentis.aciem/auctoritas
-```
-
-## Further readings
-
-* [Maven docs](https://maven.apache.org/guides/index.html)  
-* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)  
-* [Spring Data JPA reference](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
-* [Thymeleaf docs](https://www.thymeleaf.org/documentation.html)  
-* [Bootstrap docs](https://getbootstrap.com/docs/5.3/getting-started/introduction/)  
-* [Htmx in a nutshell](https://htmx.org/docs/)  
-* [Learn Spring Boot with Thymeleaf](https://www.wimdeblauwe.com/books/taming-thymeleaf/)  
+This application attempts to register itself with a Netflix Eureka server.  Ensure that Eureka is up and running *before* starting Auctoritas.
