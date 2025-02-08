@@ -14,6 +14,28 @@ import org.springframework.security.core.userdetails.User;
 
 import java.text.ParseException;
 
+
+/**
+ * Custom authentication provider for handling authentication using OAuth tokens.
+ * <p>
+ * This class implements the {@link AuthenticationProvider} interface and provides
+ * a custom authentication mechanism using an {@link OAuthService} to validate
+ * user credentials and extract authorities from a signed JWT token.
+ * </p>
+ * <p>
+ * The authentication process involves:
+ * <ul>
+ *   <li>Retrieving the username and password from the {@link Authentication} object.</li>
+ *   <li>Using the {@link OAuthService} to obtain a signed JWT token.</li>
+ *   <li>Extracting user authorities from the signed JWT token.</li>
+ *   <li>Creating a {@link UsernamePasswordAuthenticationToken} with the user details and authorities.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * If authentication fails due to parsing errors, invalid signatures, or access denial,
+ * an {@link AuthenticationException} is thrown with an appropriate error message.
+ * </p>
+ */
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final OAuthService oauthService;

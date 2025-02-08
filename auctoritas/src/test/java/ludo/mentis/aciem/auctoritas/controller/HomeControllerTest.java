@@ -6,7 +6,7 @@ import ludo.mentis.aciem.auctoritas.config.DomainConfig;
 import ludo.mentis.aciem.auctoritas.config.WebConfig;
 import ludo.mentis.aciem.auctoritas.security.KeyConfig;
 import ludo.mentis.aciem.auctoritas.security.SecurityConfig;
-import ludo.mentis.aciem.auctoritas.util.WebUtils;
+import ludo.mentis.aciem.commons.web.FlashMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -19,9 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Tag("integration")
 @ActiveProfiles("test")
@@ -61,6 +59,6 @@ class HomeControllerTest {
         mockMvc.perform(get("/").param("logoutSuccess", "true"))
                .andExpect(status().isOk())
                .andExpect(view().name("home/index"))
-               .andExpect(model().attributeExists(WebUtils.MSG_INFO));
+               .andExpect(model().attributeExists(FlashMessages.MSG_INFO));
     }
 }

@@ -1,9 +1,7 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import java.util.stream.Collectors;
-
+import ludo.mentis.aciem.commons.web.ReferencedWarning;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,6 @@ import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
-import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
 
 
 @Service

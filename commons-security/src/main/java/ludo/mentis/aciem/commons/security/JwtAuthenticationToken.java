@@ -5,6 +5,24 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+
+/**
+ * Custom authentication token for handling JWT tokens.
+ * <p>
+ * This class extends the {@link AbstractAuthenticationToken} and provides a custom
+ * authentication mechanism using JWT tokens.
+ * </p>
+ * <p>
+ * The authentication process involves:
+ * <ul>
+ *   <li>Storing the principal (username) and authorities extracted from the JWT token.</li>
+ *   <li>Setting the authentication status to true upon creation.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * This class does not require credentials for JWT-based authentication.
+ * </p>
+ */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = -6368725567537680251L;

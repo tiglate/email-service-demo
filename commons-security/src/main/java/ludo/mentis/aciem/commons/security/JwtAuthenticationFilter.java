@@ -20,6 +20,27 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+
+/**
+ * Custom authentication filter for handling JWT tokens.
+ * <p>
+ * This class extends the {@link BasicAuthenticationFilter} and provides a custom
+ * authentication mechanism using an {@link OAuthService} to validate JWT tokens.
+ * </p>
+ * <p>
+ * The authentication process involves:
+ * <ul>
+ *   <li>Retrieving the JWT token from the Authorization header.</li>
+ *   <li>Validating the token signature and extracting the username and authorities.</li>
+ *   <li>Creating a {@link JwtAuthenticationToken} with the user details and authorities.</li>
+ *   <li>Setting the user as authenticated in the security context.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * If authentication fails due to parsing errors, invalid signatures, or access denial,
+ * an {@link IOException} is thrown with an appropriate error message.
+ * </p>
+ */
 @Component
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 

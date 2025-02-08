@@ -2,6 +2,10 @@ package ludo.mentis.aciem.auctoritas.controller;
 
 import javax.validation.Valid;
 
+import ludo.mentis.aciem.commons.web.CustomCollectors;
+import ludo.mentis.aciem.commons.web.FlashMessages;
+import ludo.mentis.aciem.commons.web.GlobalizationUtils;
+import ludo.mentis.aciem.commons.web.PaginationUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,9 +29,7 @@ import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.RoleRepository;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.service.UserCrudService;
-import ludo.mentis.aciem.auctoritas.util.CustomCollectors;
 import ludo.mentis.aciem.auctoritas.util.UserRoles;
-import ludo.mentis.aciem.auctoritas.util.WebUtils;
 
 
 @Controller
@@ -65,7 +67,7 @@ public class UserController {
         final Page<UserDTO> users = userService.findAll(filter, pageable);
         model.addAttribute("users", users);
         model.addAttribute("filter", filter);
-        model.addAttribute("paginationModel", WebUtils.getPaginationModel(users));
+        model.addAttribute("paginationModel", PaginationUtils.getPaginationModel(users));
         return "user/list";
     }
 
@@ -83,7 +85,7 @@ public class UserController {
             return "user/add";
         }
         userService.create(userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, GlobalizationUtils.getMessage("user.create.success"));
         return REDIRECT_USERS;
     }
 
@@ -103,7 +105,7 @@ public class UserController {
             return "user/edit";
         }
         userService.update(id, userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, GlobalizationUtils.getMessage("user.update.success"));
         return REDIRECT_USERS;
     }
 
@@ -112,7 +114,7 @@ public class UserController {
     public String delete(@PathVariable final Integer id,
                          final RedirectAttributes redirectAttributes) {
         userService.delete(id);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_INFO, GlobalizationUtils.getMessage("user.delete.success"));
         return REDIRECT_USERS;
     }
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import ludo.mentis.aciem.commons.web.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,11 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
 import ludo.mentis.aciem.auctoritas.service.SoftwareService;
-import ludo.mentis.aciem.auctoritas.util.FlashMessages;
-import ludo.mentis.aciem.auctoritas.util.ReferencedWarning;
-import ludo.mentis.aciem.auctoritas.util.SortUtils;
 import ludo.mentis.aciem.auctoritas.util.UserRoles;
-import ludo.mentis.aciem.auctoritas.util.WebUtils;
 
 
 @Controller
@@ -64,7 +61,7 @@ public class SoftwareController {
         final var softwares = softwareService.findAll(filter, pageRequest);
         model.addAttribute("softwares", softwares);
         model.addAttribute("filter", filter);
-        model.addAttribute("paginationModel", WebUtils.getPaginationModel(softwares));
+        model.addAttribute("paginationModel", PaginationUtils.getPaginationModel(softwares));
         return CONTROLLER_LIST;
     }
 
@@ -119,8 +116,8 @@ public class SoftwareController {
                          final RedirectAttributes redirectAttributes) {
         final ReferencedWarning referencedWarning = softwareService.getReferencedWarning(id);
         if (referencedWarning != null) {
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR,
-                    WebUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+            redirectAttributes.addFlashAttribute(FlashMessages.MSG_ERROR,
+                    GlobalizationUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
         } else {
             softwareService.delete(id);
             FlashMessages.deleteSuccess(redirectAttributes, ENTITY_NAME);

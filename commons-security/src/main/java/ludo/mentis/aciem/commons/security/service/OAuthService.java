@@ -9,6 +9,13 @@ import java.security.PublicKey;
 import java.text.ParseException;
 import java.util.List;
 
+/**
+ * OAuth service interface for handling OAuth tokens.
+ * <p>
+ * This interface provides methods for obtaining OAuth tokens, extracting user details
+ * and authorities from the token, and validating the token signature.
+ * </p>
+ */
 public interface OAuthService {
 
     /**

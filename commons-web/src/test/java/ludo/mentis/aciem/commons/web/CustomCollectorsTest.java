@@ -1,4 +1,4 @@
-package ludo.mentis.aciem.auctoritas.util;
+package ludo.mentis.aciem.commons.web;
 
 import org.junit.jupiter.api.Test;
 

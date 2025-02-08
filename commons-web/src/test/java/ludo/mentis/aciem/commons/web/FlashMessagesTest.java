@@ -1,4 +1,4 @@
-package ludo.mentis.aciem.tabellarius.util;
+package ludo.mentis.aciem.commons.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
