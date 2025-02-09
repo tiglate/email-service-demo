@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.0</version><!--$NO-MVN-MAN-VER$--><!--$NO-MVN-MAN-VER$-->
         </dependency>
 
         <dependency>
@@ -143,7 +143,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.3.232</version>
+            <version>2.3.232</version><!--$NO-MVN-MAN-VER$-->
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -165,7 +165,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.2</version><!--$NO-MVN-MAN-VER$-->
                 <configuration>
                     <excludes>
                         <exclude>@Tag("integration")</exclude>

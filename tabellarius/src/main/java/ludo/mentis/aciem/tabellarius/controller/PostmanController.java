@@ -36,9 +36,9 @@ public class PostmanController {
 
     @PreAuthorize("hasAuthority('ROLE_SEND_EMAIL')")
     @PostMapping("/postman")
-    public String sendEmail(@Valid @ModelAttribute("messageDTO") MessageDTO messageDTO,
+    public String sendEmail(@Valid @ModelAttribute MessageDTO messageDTO,
                             BindingResult bindingResult,
-                            @RequestParam(value = "files", required = false) List<MultipartFile> files,
+                            @RequestParam(required = false) List<MultipartFile> files,
                             HttpServletRequest request,
                             Model model) {
         if (bindingResult.hasErrors()) {

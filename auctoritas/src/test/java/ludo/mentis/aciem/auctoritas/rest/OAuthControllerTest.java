@@ -47,7 +47,9 @@ class OAuthControllerTest {
         var username = "testUser";
         var password = "wrongPassword";
 
-        when(authService.generateToken(username, password)).thenThrow(new AuthenticationException("Invalid credentials") {});
+        when(authService.generateToken(username, password)).thenThrow(new AuthenticationException("Invalid credentials") {
+			private static final long serialVersionUID = -6953072405467697797L;
+		});
 
         ResponseEntity<Map<String, String>> response = oAuthController.generateToken(username, password);
 

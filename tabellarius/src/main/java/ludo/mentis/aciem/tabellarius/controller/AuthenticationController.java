@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthenticationController {
 
     @GetMapping("/login")
-    public String login(@RequestParam(name = "loginRequired", required = false) final Boolean loginRequired,
-                        @RequestParam(name = "loginError", required = false) final Boolean loginError,
+    public String login(@RequestParam(required = false) final Boolean loginRequired,
+                        @RequestParam(required = false) final Boolean loginError,
                         final Model model) {
         model.addAttribute("authentication", new AuthenticationRequest());
         if (loginRequired == Boolean.TRUE) {

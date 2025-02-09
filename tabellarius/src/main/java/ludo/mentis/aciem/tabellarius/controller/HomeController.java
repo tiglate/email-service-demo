@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @PreAuthorize("isAuthenticated()")
 public class HomeController {
 
-    @SuppressWarnings("SameReturnValue")
     @GetMapping("/")
     public String index() {
         return "home/index";

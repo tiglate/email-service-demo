@@ -39,7 +39,7 @@ public class EmailClientConfig {
     }
 
     @Bean
-    public RequestInterceptor requestInterceptor() {
+    RequestInterceptor requestInterceptor() {
         return requestTemplate -> requestTemplate.header("Authorization", getBearerToken());
     }
 

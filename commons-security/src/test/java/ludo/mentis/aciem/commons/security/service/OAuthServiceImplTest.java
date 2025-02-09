@@ -117,7 +117,7 @@ class OAuthServiceImplTest {
         final var validToken = oauthUtil.getValidTokenResponse();
         final var publicKeyResponse = new PublicKeyResponse();
 
-        publicKeyResponse.setContent(oauthUtil.getAnyPublicKey());
+        publicKeyResponse.setContent(OAuthUtil.getAnyPublicKey());
 
         when(oauthClient.getPublicKey()).thenReturn(publicKeyResponse);
 
