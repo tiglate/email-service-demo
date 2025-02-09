@@ -62,7 +62,6 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         var header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            log.warn("Request without a valid Authorization header.");
             chain.doFilter(request, response);
             return;
         }

@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +44,7 @@ class CustomCollectorsTest {
 
         assertNotNull(result);
         assertEquals(3, result.size());
-        assertEquals(List.of("banana", "apple", "cherry"), result.keySet().stream().collect(Collectors.toList()));
+        assertEquals(List.of("banana", "apple", "cherry"), new ArrayList<>(result.keySet()));
     }
 
     @Test

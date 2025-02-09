@@ -7,6 +7,8 @@ import feign.RequestInterceptor;
 import ludo.mentis.aciem.commons.security.exception.InvalidSignatureException;
 import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
 import ludo.mentis.aciem.commons.security.service.OAuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class EmailClientConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(EmailClientConfig.class);
 
     private final OAuthService oauthService;
 
@@ -44,11 +48,11 @@ public class EmailClientConfig {
             SignedJWT response = null;
             try {
                 response = oauthService.getToken(username, password);
+                return "Bearer " + response.serialize();
             } catch (ParseException | PublicKeyException | InvalidSignatureException e) {
-                throw new RuntimeException(e);
+                log.error("Error while getting token", e);
             }
-
-            return "Bearer " + response.serialize();
+            return "";
         });
     }
 }
