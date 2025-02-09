@@ -1,6 +1,3 @@
-USE mailer
-GO
-
 /*
 drop table tb_attachment
 drop table tb_recipient
