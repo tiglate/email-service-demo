@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void testCreateUser() {
+    void testCreateUser() {
         User user = new User();
         user.setUsername("johndoe");
         user.setPassword("password123");
@@ -33,7 +33,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testReadUser() {
+    void testReadUser() {
         User user = new User();
         user.setUsername("janedoe");
         user.setPassword("password123");
@@ -48,7 +48,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testUpdateUser() {
+    void testUpdateUser() {
         User user = new User();
         user.setUsername("johnsmith");
         user.setPassword("password123");
@@ -63,7 +63,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testDeleteUser() {
+    void testDeleteUser() {
         User user = new User();
         user.setUsername("janesmith");
         user.setPassword("password123");
@@ -79,7 +79,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFindByUsernameIgnoreCase() {
+    void testFindByUsernameIgnoreCase() {
         User user = new User();
         user.setUsername("johndoe");
         user.setPassword("password123");
@@ -94,7 +94,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFindAllById() {
+    void testFindAllById() {
         User user = new User();
         user.setUsername("janedoe");
         user.setPassword("password123");
@@ -109,7 +109,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testExistsByUsernameIgnoreCase() {
+    void testExistsByUsernameIgnoreCase() {
         User user = new User();
         user.setUsername("johndoe");
         user.setPassword("password123");
@@ -123,7 +123,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testExistsByEmailIgnoreCase() {
+    void testExistsByEmailIgnoreCase() {
         User user = new User();
         user.setUsername("janedoe");
         user.setPassword("password123");

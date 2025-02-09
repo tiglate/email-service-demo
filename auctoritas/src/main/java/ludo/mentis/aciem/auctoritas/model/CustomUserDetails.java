@@ -1,11 +1,13 @@
 package ludo.mentis.aciem.auctoritas.model;
 
+import ludo.mentis.aciem.auctoritas.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
@@ -21,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
     private final boolean accountLocked;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(ludo.mentis.aciem.auctoritas.domain.User user) {
+    public CustomUserDetails(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
@@ -30,9 +32,13 @@ public class CustomUserDetails implements UserDetails {
         this.failedLoginAttempts = user.getFailedLoginAttempts();
         this.lastFailedLoginAttempt = user.getLastFailedLoginAttempt();
         this.accountLocked = user.isAccountLocked();
-        this.authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getCode()))
-                .collect(Collectors.toList());
+        if (user.getRoles() == null) {
+            this.authorities = Collections.emptyList();
+        } else {
+            this.authorities = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getCode()))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override

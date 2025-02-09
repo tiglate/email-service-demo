@@ -39,7 +39,7 @@ class EmailServiceImplTest {
     }
 
     @Test
-    void testSendSuccess() throws MessagingException {
+    void testSendSuccess() {
         var messageDTO = createMessageDTO();
         var senderIp = "127.0.0.1";
 

@@ -10,5 +10,10 @@ class TabellariusApplicationTest {
 
     @Test
     void contextLoads() {
+        /* This method is a simple test to verify that the
+           Spring application context loads successfully.
+           It is intentionally left empty because its purpose
+           is solely to ensure that the application context
+           can start without any issues. */
     }
 }

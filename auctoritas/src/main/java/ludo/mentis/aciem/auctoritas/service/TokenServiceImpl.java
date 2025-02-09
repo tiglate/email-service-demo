@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,14 @@ import com.nimbusds.jwt.SignedJWT;
 
 @Service
 public class TokenServiceImpl implements TokenService {
+
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
     @Value("${token.expiration:36000}") // Default 10 hours
-    private long expirationSeconds;
+    long expirationSeconds;
+
+    private final Logger log = LoggerFactory.getLogger(TokenServiceImpl.class);
 
     public TokenServiceImpl(PrivateKey privateKey, PublicKey publicKey) {
         this.privateKey = privateKey;
@@ -59,12 +64,14 @@ public class TokenServiceImpl implements TokenService {
             final var verifier = new RSASSAVerifier((RSAPublicKey) publicKey);
 
             if (!signedJWT.verify(verifier)) {
+                log.error("Token verification failed");
                 return false;
             }
 
             final var expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
             return expirationTime != null && new Date().before(expirationTime);
         } catch (ParseException | JOSEException e) {
+            log.error("Error validating token", e);
             return false;
         }
     }
