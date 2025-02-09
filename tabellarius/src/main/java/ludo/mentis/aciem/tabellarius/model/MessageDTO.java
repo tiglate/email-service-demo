@@ -4,6 +4,7 @@ import ludo.mentis.aciem.tabellarius.domain.BodyType;
 import ludo.mentis.aciem.tabellarius.validation.UniqueFileName;
 import ludo.mentis.aciem.tabellarius.validation.ValidEmailList;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.List;
 
 public class MessageDTO {
 
-    @NotNull
+    @NotBlank
     @Size(max = 255)
     private String subject;
 
-    @NotNull
+    @NotBlank
     @Size(max = 75000)
     private String body;
 

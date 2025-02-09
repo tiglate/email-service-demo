@@ -18,6 +18,8 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    public static final String CONTENT = "content";
+    public static final String CONTENT_TILE = "contentTile";
     private final OAuthService oauthService;
     private final EmailClient emailClient;
 
@@ -28,22 +30,22 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) throws PublicKeyException {
-        model.addAttribute("contentTile", "Public Key");
-        model.addAttribute("content", Base64.getEncoder().encodeToString(oauthService.getPublicKey().getEncoded()));
+        model.addAttribute(CONTENT_TILE, "Public Key");
+        model.addAttribute(CONTENT, Base64.getEncoder().encodeToString(oauthService.getPublicKey().getEncoded()));
         return "home/index";
     }
 
     @PostMapping("/")
     public String send(Model model) {
-        model.addAttribute("contentTile", "E-mail Result");
+        model.addAttribute(CONTENT_TILE, "E-mail Result");
 
         try {
             var message = getMessage();
             emailClient.send(message);
-            model.addAttribute("content", "E-mail sent successfully.");
+            model.addAttribute(CONTENT, "E-mail sent successfully.");
         }
         catch (Exception e) {
-            model.addAttribute("content", "Failed to send e-mail: " + e.getMessage());
+            model.addAttribute(CONTENT, "Failed to send e-mail: " + e.getMessage());
         }
 
         return "home/index";
