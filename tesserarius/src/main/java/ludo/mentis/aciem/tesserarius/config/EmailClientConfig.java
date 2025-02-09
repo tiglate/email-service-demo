@@ -24,12 +24,12 @@ public class EmailClientConfig {
     private final OAuthService oauthService;
 
     @Value("${tabellarius.service.username}")
-    private String username;
+    String username;
 
     @Value("${tabellarius.service.password}")
-    private String password;
+    String password;
 
-    private final Cache<String, String> tokenCache;
+    Cache<String, String> tokenCache;
 
     public EmailClientConfig(OAuthService oauthService) {
         this.oauthService = oauthService;
@@ -43,7 +43,7 @@ public class EmailClientConfig {
         return requestTemplate -> requestTemplate.header("Authorization", getBearerToken());
     }
 
-    private String getBearerToken() {
+    String getBearerToken() {
         return tokenCache.get("token", key -> {
             SignedJWT response = null;
             try {
