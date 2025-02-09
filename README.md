@@ -1,4 +1,6 @@
-# 🛡️ Spring Boot 2 OAuth 2.0 & Service Discovery Demo 🚀
+# 🛡️ Spring Boot 2 OAuth 2 & Service Discovery Demo 🚀
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tiglate_email-service-demo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tiglate_email-service-demo)
 
 This repository showcases the implementation of advanced concepts like service discovery and OAuth 2.0 using Java 13 and Spring Boot 2 (specifically, version 2.7.18).  While newer Spring Boot versions offer excellent OAuth 2 support, this demo focuses on a working solution for those stuck with Spring Boot 2 and Java 13 (or 11).
 
