@@ -15,16 +15,15 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
-@EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
-            .csrf(csrf -> csrf.ignoringAntMatchers("/actuator/**", "/api/**"))
-            .authorizeRequests(authorize -> authorize
-                .antMatchers("/swagger-ui.html",
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/actuator/**", "/api/**"))
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/swagger-ui.html",
                              "/swagger-ui/**",
                              "/v3/api-docs/**",
                              "/login",

@@ -2,7 +2,7 @@ package ludo.mentis.aciem.auctoritas.service;
 
 import java.time.OffsetDateTime;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 

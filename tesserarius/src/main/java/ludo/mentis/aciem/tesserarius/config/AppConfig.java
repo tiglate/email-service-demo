@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 
 @Configuration
 @EnableFeignClients(basePackages = {
@@ -23,5 +25,10 @@ public class AppConfig {
     @Bean
     RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    UriBuilder uriBuilder() {
+        return new DefaultUriBuilderFactory().builder();
     }
 }

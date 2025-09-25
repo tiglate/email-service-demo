@@ -3,7 +3,7 @@ package ludo.mentis.aciem.tabellarius.validation;
 import ludo.mentis.aciem.tabellarius.model.AttachmentDTO;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

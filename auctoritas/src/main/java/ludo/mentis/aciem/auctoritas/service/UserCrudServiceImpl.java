@@ -2,7 +2,7 @@ package ludo.mentis.aciem.auctoritas.service;
 
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

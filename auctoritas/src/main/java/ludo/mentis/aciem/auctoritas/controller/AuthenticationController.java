@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthenticationController {
 
+    private final GlobalizationUtils globalizationUtils;
+
+    public AuthenticationController(GlobalizationUtils globalizationUtils) {
+        this.globalizationUtils = globalizationUtils;
+    }
+
     @GetMapping("/login")
     public String login(
             @RequestParam(required = false) final Boolean loginRequired,
@@ -19,10 +25,10 @@ public class AuthenticationController {
             final Model model) {
         model.addAttribute("authentication", new AuthenticationRequest());
         if (loginRequired != null && loginRequired.equals(Boolean.TRUE)) {
-            model.addAttribute(FlashMessages.MSG_INFO, GlobalizationUtils.getMessage("authentication.login.required"));
+            model.addAttribute(FlashMessages.MSG_INFO, globalizationUtils.getMessage("authentication.login.required"));
         }
         if (loginError != null && loginError.equals(Boolean.TRUE)) {
-            model.addAttribute(FlashMessages.MSG_ERROR, GlobalizationUtils.getMessage("authentication.login.error"));
+            model.addAttribute(FlashMessages.MSG_ERROR, globalizationUtils.getMessage("authentication.login.error"));
         }
         return "authentication/login";
     }

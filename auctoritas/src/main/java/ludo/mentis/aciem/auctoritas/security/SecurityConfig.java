@@ -34,38 +34,43 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain formSecurityConfigFilterChain(final HttpSecurity http,
-    		@Value("${app.security.remember-me-key}") final String rememberMeKey) throws Exception {
+            @Value("${app.security.remember-me-key}") final String rememberMeKey) throws Exception {
         return http
-        		.cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .csrf(csrf ->
-                        csrf.ignoringAntMatchers("/actuator/**", "/oauth/**", "/api/**"))
-                .authorizeRequests(authorize ->
-                	authorize.antMatchers(
-                		"/swagger-ui.html",
-                		"/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/login",
-                        "/static/**",
-                        "/webjars/**",
-                        "/oauth/**",
-                        "/actuator/**",
-                        "/favicon.ico").permitAll()
-                	.anyRequest().authenticated())
+                        csrf.ignoringRequestMatchers(
+                                request -> request.getRequestURI().startsWith("/actuator/"),
+                                request -> request.getRequestURI().startsWith("/oauth/"),
+                                request -> request.getRequestURI().startsWith("/api/")
+                        ))
+                .authorizeHttpRequests(authorize ->
+                        authorize.requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/login",
+                                "/static/**",
+                                "/webjars/**",
+                                "/oauth/**",
+                                "/actuator/**",
+                                "/favicon.ico"
+                        ).permitAll()
+                        .anyRequest().authenticated())
                 .formLogin(form -> form
-                    .loginPage("/login")
-                    .failureUrl("/login?loginError=true"))
+                        .loginPage("/login")
+                        .failureUrl("/login?loginError=true"))
                 .rememberMe(rememberMe -> rememberMe
-                    .tokenValiditySeconds((int) Duration.ofDays(180).getSeconds())
-                    .rememberMeParameter("rememberMe")
-                    .key(rememberMeKey))
+                        .tokenValiditySeconds((int) Duration.ofDays(180).getSeconds())
+                        .rememberMeParameter("rememberMe")
+                        .key(rememberMeKey))
                 .logout(logout -> logout
-                    .logoutSuccessUrl("/?logoutSuccess=true")
-                    .deleteCookies("JSESSIONID"))
+                        .logoutSuccessUrl("/?logoutSuccess=true")
+                        .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                        		request -> request.getRequestURI().startsWith("/oauth/") || request.getRequestURI().startsWith("/api/"))
+                                request -> request.getRequestURI().startsWith("/oauth/") || request.getRequestURI().startsWith("/api/"))
                         .defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true"),
-                        		request -> !request.getRequestURI().startsWith("/oauth/") && !request.getRequestURI().startsWith("/api/")))
+                                request -> !request.getRequestURI().startsWith("/oauth/") && !request.getRequestURI().startsWith("/api/")))
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package ludo.mentis.aciem.auctoritas.controller;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import ludo.mentis.aciem.commons.web.CustomCollectors;
 import ludo.mentis.aciem.commons.web.FlashMessages;
@@ -40,23 +40,29 @@ public class UserController {
 	private final UserCrudService userService;
     private final RoleRepository roleRepository;
     private final SoftwareRepository softwareRepository;
+    private final PaginationUtils paginationUtils;
+    private final GlobalizationUtils globalizationUtils;
 
     public UserController(final UserCrudService userService,
                           final RoleRepository roleRepository,
-                          final SoftwareRepository softwareRepository) {
+                          final SoftwareRepository softwareRepository,
+                          final PaginationUtils paginationUtils,
+                          final GlobalizationUtils globalizationUtils) {
         this.userService = userService;
         this.roleRepository = roleRepository;
         this.softwareRepository = softwareRepository;
+        this.paginationUtils = paginationUtils;
+        this.globalizationUtils = globalizationUtils;
     }
 
     @ModelAttribute
     public void prepareContext(final Model model) {
         model.addAttribute("rolesValues", roleRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Role::getId, Role::getCode)));
+                .collect(CustomCollectors.toLinkedHashMap(Role::getId, Role::getCode)));
         model.addAttribute("softwareValues", softwareRepository.findAll(Sort.by("id"))
                 .stream()
-                .collect(CustomCollectors.toSortedMap(Software::getId, Software::getName)));
+                .collect(CustomCollectors.toLinkedHashMap(Software::getId, Software::getName)));
     }
 
     @GetMapping
@@ -67,7 +73,7 @@ public class UserController {
         final Page<UserDTO> users = userService.findAll(filter, pageable);
         model.addAttribute("users", users);
         model.addAttribute("filter", filter);
-        model.addAttribute("paginationModel", PaginationUtils.getPaginationModel(users));
+        model.addAttribute("paginationModel", paginationUtils.getPaginationModel(users));
         return "user/list";
     }
 
@@ -85,7 +91,7 @@ public class UserController {
             return "user/add";
         }
         userService.create(userDTO);
-        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, GlobalizationUtils.getMessage("user.create.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, globalizationUtils.getMessage("user.create.success"));
         return REDIRECT_USERS;
     }
 
@@ -105,7 +111,7 @@ public class UserController {
             return "user/edit";
         }
         userService.update(id, userDTO);
-        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, GlobalizationUtils.getMessage("user.update.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_SUCCESS, globalizationUtils.getMessage("user.update.success"));
         return REDIRECT_USERS;
     }
 
@@ -114,7 +120,7 @@ public class UserController {
     public String delete(@PathVariable final Integer id,
                          final RedirectAttributes redirectAttributes) {
         userService.delete(id);
-        redirectAttributes.addFlashAttribute(FlashMessages.MSG_INFO, GlobalizationUtils.getMessage("user.delete.success"));
+        redirectAttributes.addFlashAttribute(FlashMessages.MSG_INFO, globalizationUtils.getMessage("user.delete.success"));
         return REDIRECT_USERS;
     }
 

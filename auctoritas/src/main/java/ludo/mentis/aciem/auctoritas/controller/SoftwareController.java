@@ -4,7 +4,7 @@ import static java.util.Map.entry;
 
 import java.util.Map;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import ludo.mentis.aciem.commons.web.*;
 import org.springframework.data.domain.PageRequest;
@@ -40,10 +40,17 @@ public class SoftwareController {
     private static final String REDIRECT_TO_CONTROLLER_INDEX = "redirect:/softwares";
     private final SoftwareService softwareService;
     private final SortUtils sortUtils;
+    private final PaginationUtils paginationUtils;
+    private final GlobalizationUtils globalizationUtils;
 
-    public SoftwareController(final SoftwareService softwareService) {
+    public SoftwareController(final SoftwareService softwareService,
+                              final SortUtils sortUtils,
+                              final PaginationUtils paginationUtils,
+                              final GlobalizationUtils globalizationUtils) {
         this.softwareService = softwareService;
-        this.sortUtils = new SortUtils();
+        this.sortUtils = sortUtils;
+        this.paginationUtils = paginationUtils;
+        this.globalizationUtils = globalizationUtils;
     }
 
     @GetMapping
@@ -61,7 +68,7 @@ public class SoftwareController {
         final var softwares = softwareService.findAll(filter, pageRequest);
         model.addAttribute("softwares", softwares);
         model.addAttribute("filter", filter);
-        model.addAttribute("paginationModel", PaginationUtils.getPaginationModel(softwares));
+        model.addAttribute("paginationModel", paginationUtils.getPaginationModel(softwares));
         return CONTROLLER_LIST;
     }
 
@@ -117,7 +124,7 @@ public class SoftwareController {
         final ReferencedWarning referencedWarning = softwareService.getReferencedWarning(id);
         if (referencedWarning != null) {
             redirectAttributes.addFlashAttribute(FlashMessages.MSG_ERROR,
-                    GlobalizationUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
+                    globalizationUtils.getMessage(referencedWarning.getKey(), referencedWarning.getParams().toArray()));
         } else {
             softwareService.delete(id);
             FlashMessages.deleteSuccess(redirectAttributes, ENTITY_NAME);

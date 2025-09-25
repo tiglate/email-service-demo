@@ -11,7 +11,7 @@
     <properties>
         <sonar.organization>ampliar-project</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-boot.version>3.5.6</spring-boot.version>
     </properties>
 
     <modules>
@@ -19,8 +19,6 @@
         <module>tabellarius</module>
         <module>tesserarius</module>
         <module>matzati</module>
-        <module>commons-security</module>
-        <module>commons-web</module>
     </modules>
 
     <dependencyManagement>

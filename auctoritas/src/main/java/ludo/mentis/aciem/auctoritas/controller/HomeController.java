@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
+    private final GlobalizationUtils globalizationUtils;
+
+    public HomeController(GlobalizationUtils globalizationUtils) {
+        this.globalizationUtils = globalizationUtils;
+    }
+
     @GetMapping("/")
 	public final String index(
             @RequestParam(required = false) final Boolean logoutSuccess,
             final Model model) {
         if (logoutSuccess != null && logoutSuccess.equals(Boolean.TRUE)) {
             model.addAttribute(FlashMessages.MSG_INFO,
-            		GlobalizationUtils.getMessage("authentication.logout.success"));
+                    globalizationUtils.getMessage("authentication.logout.success"));
         }
         return "home/index";
     }
