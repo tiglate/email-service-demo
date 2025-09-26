@@ -6,6 +6,7 @@ import com.nimbusds.jwt.SignedJWT;
 import ludo.mentis.aciem.commons.security.exception.InvalidSignatureException;
 import ludo.mentis.aciem.commons.security.exception.PublicKeyException;
 import ludo.mentis.aciem.commons.security.service.OAuthService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -28,12 +29,19 @@ class EmailClientConfigTest {
 
     private EmailClientConfig emailClientConfig;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         emailClientConfig = new EmailClientConfig(oauthService);
         emailClientConfig.username = "testUsername";
         emailClientConfig.password = "testPassword";
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

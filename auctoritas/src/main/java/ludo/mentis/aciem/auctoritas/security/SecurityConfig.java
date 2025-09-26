@@ -21,6 +21,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    public static final String API_URL = "/api/";
+    public static final String OAUTH_URL = "/oauth/";
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -40,8 +43,8 @@ public class SecurityConfig {
                 .csrf(csrf ->
                         csrf.ignoringRequestMatchers(
                                 request -> request.getRequestURI().startsWith("/actuator/"),
-                                request -> request.getRequestURI().startsWith("/oauth/"),
-                                request -> request.getRequestURI().startsWith("/api/")
+                                request -> request.getRequestURI().startsWith(OAUTH_URL),
+                                request -> request.getRequestURI().startsWith(API_URL)
                         ))
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(
@@ -68,9 +71,9 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                                request -> request.getRequestURI().startsWith("/oauth/") || request.getRequestURI().startsWith("/api/"))
+                                request -> request.getRequestURI().startsWith(OAUTH_URL) || request.getRequestURI().startsWith(API_URL))
                         .defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true"),
-                                request -> !request.getRequestURI().startsWith("/oauth/") && !request.getRequestURI().startsWith("/api/")))
+                                request -> !request.getRequestURI().startsWith(OAUTH_URL) && !request.getRequestURI().startsWith(API_URL)))
                 .build();
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 @Component
 public class UserAssemblerImpl implements UserAssembler {
@@ -48,7 +47,7 @@ public class UserAssemblerImpl implements UserAssembler {
         userDTO.setRoles(user.getRoles()
                 .stream()
                 .map(Role::getId)
-                .collect(Collectors.toList()));
+                .toList());
         return userDTO;
     }
 

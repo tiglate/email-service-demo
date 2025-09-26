@@ -1,5 +1,6 @@
 package ludo.mentis.aciem.auctoritas.service;
 
+import java.io.Serial;
 import java.security.PublicKey;
 import java.util.Base64;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
             return Map.of("access_token", token, "token_type", "Bearer");
         } else {
             throw new AuthenticationException("Invalid credentials") {
+                @Serial
 				private static final long serialVersionUID = -4473800467201599470L;
 			};
         }

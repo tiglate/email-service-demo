@@ -5,6 +5,7 @@ import ludo.mentis.aciem.tabellarius.domain.Message;
 import ludo.mentis.aciem.tabellarius.model.AttachmentDTO;
 import ludo.mentis.aciem.tabellarius.model.MessageDTO;
 import ludo.mentis.aciem.tabellarius.repos.MessageRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,9 +34,16 @@ class EmailServiceImplTest {
     @InjectMocks
     private EmailServiceImpl emailService;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

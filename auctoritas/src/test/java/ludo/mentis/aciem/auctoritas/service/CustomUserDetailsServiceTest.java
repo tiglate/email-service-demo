@@ -5,6 +5,7 @@ import ludo.mentis.aciem.auctoritas.exception.AccountDisabledException;
 import ludo.mentis.aciem.auctoritas.exception.AccountExpiredException;
 import ludo.mentis.aciem.auctoritas.exception.AccountLockedException;
 import ludo.mentis.aciem.auctoritas.model.CustomUserDetails;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,19 +22,25 @@ class CustomUserDetailsServiceTest {
     @Mock
     private UserService userService;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         customUserDetailsService = new CustomUserDetailsService(userService);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test
     void testLoadUserByUsername_UserNotFound() {
         when(userService.findByUsername("nonexistent")).thenReturn(null);
 
-        var exception = assertThrows(UsernameNotFoundException.class, () -> {
-            customUserDetailsService.loadUserByUsername("nonexistent");
-        });
+        var exception = assertThrows(UsernameNotFoundException.class,
+                () -> customUserDetailsService.loadUserByUsername("nonexistent"));
 
         assertEquals("User nonexistent not found", exception.getMessage());
     }
@@ -44,9 +51,8 @@ class CustomUserDetailsServiceTest {
         when(userService.findByUsername("lockedUser")).thenReturn(user);
         when(userService.isAccountLocked(user)).thenReturn(true);
 
-        AccountLockedException exception = assertThrows(AccountLockedException.class, () -> {
-            customUserDetailsService.loadUserByUsername("lockedUser");
-        });
+        AccountLockedException exception = assertThrows(AccountLockedException.class,
+                () -> customUserDetailsService.loadUserByUsername("lockedUser"));
 
         assertEquals("User lockedUser is locked", exception.getMessage());
     }
@@ -57,9 +63,8 @@ class CustomUserDetailsServiceTest {
         when(userService.findByUsername("expiredUser")).thenReturn(user);
         when(userService.isAccountExpired(user)).thenReturn(true);
 
-        var exception = assertThrows(AccountExpiredException.class, () -> {
-            customUserDetailsService.loadUserByUsername("expiredUser");
-        });
+        var exception = assertThrows(AccountExpiredException.class,
+                () -> customUserDetailsService.loadUserByUsername("expiredUser"));
 
         assertEquals("User expiredUser is expired", exception.getMessage());
     }
@@ -70,9 +75,8 @@ class CustomUserDetailsServiceTest {
         when(userService.findByUsername("disabledUser")).thenReturn(user);
         when(userService.isAccountEnabled(user)).thenReturn(false);
 
-        var exception = assertThrows(AccountDisabledException.class, () -> {
-            customUserDetailsService.loadUserByUsername("disabledUser");
-        });
+        var exception = assertThrows(AccountDisabledException.class,
+                () -> customUserDetailsService.loadUserByUsername("disabledUser"));
 
         assertEquals("User disabledUser is disabled", exception.getMessage());
     }

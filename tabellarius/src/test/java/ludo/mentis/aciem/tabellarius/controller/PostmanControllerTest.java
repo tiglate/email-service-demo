@@ -2,6 +2,7 @@ package ludo.mentis.aciem.tabellarius.controller;
 
 import ludo.mentis.aciem.tabellarius.model.MessageDTO;
 import ludo.mentis.aciem.tabellarius.service.EmailService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,10 +29,17 @@ class PostmanControllerTest {
     @InjectMocks
     private PostmanController postmanController;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(postmanController).build();
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

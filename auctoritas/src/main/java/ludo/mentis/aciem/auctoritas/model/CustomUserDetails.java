@@ -5,14 +5,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
+    @Serial
     private static final long serialVersionUID = 6087081873305564026L;
+
     private final Integer id;
     private final String username;
     private final String password;
@@ -37,7 +39,7 @@ public class CustomUserDetails implements UserDetails {
         } else {
             this.authorities = user.getRoles().stream()
                     .map(role -> new SimpleGrantedAuthority(role.getCode()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
     }
 

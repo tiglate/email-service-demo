@@ -3,6 +3,7 @@ package ludo.mentis.aciem.auctoritas.listener;
 import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.model.CustomUserDetails;
 import ludo.mentis.aciem.auctoritas.service.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -11,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.AuthenticationException;
+
+import java.io.Serial;
 
 import static org.mockito.Mockito.*;
 
@@ -21,10 +24,17 @@ class AuthenticationEventListenerTest {
 
     private AuthenticationEventListener authenticationEventListener;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         authenticationEventListener = new AuthenticationEventListener(userService);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test
@@ -39,6 +49,7 @@ class AuthenticationEventListenerTest {
         var event = new AuthenticationFailureBadCredentialsEvent(
                 new UsernamePasswordAuthenticationToken(username, "wrongPassword"),
                 new AuthenticationException("Bad credentials") {
+                    @Serial
                     private static final long serialVersionUID = 5684404282967299191L;
                 });
 
@@ -57,6 +68,7 @@ class AuthenticationEventListenerTest {
         var event = new AuthenticationFailureBadCredentialsEvent(
                 new UsernamePasswordAuthenticationToken(username, "wrongPassword"),
                 new AuthenticationException("Bad credentials") {
+                    @Serial
                     private static final long serialVersionUID = 7147580949331772174L;
                 });
 

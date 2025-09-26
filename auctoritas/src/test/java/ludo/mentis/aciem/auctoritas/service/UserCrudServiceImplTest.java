@@ -4,6 +4,7 @@ import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,10 +28,17 @@ class UserCrudServiceImplTest {
     @Mock
     private UserAssembler userAssembler;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         userCrudService = new UserCrudServiceImpl(userRepository, userAssembler);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

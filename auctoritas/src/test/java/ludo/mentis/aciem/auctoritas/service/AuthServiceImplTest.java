@@ -1,6 +1,7 @@
 package ludo.mentis.aciem.auctoritas.service;
 
 import com.nimbusds.jose.JOSEException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -33,14 +35,21 @@ class AuthServiceImplTest {
 
     private PublicKey publicKey;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
 
         var keyPair = getKeyPair();
         publicKey = keyPair.getPublic();
 
         authService = new AuthServiceImpl(tokenService, publicKey, authenticationManager);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test
@@ -68,6 +77,7 @@ class AuthServiceImplTest {
         var password = "testPassword";
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new AuthenticationException("Invalid credentials") {
+            @Serial
             private static final long serialVersionUID = -7765019233005440952L;
         });
 

@@ -1,18 +1,14 @@
 package ludo.mentis.aciem.auctoritas.service;
 
-import java.util.stream.Collectors;
-
 import jakarta.transaction.Transactional;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import ludo.mentis.aciem.auctoritas.domain.User;
 import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
@@ -44,7 +40,7 @@ public class UserCrudServiceImpl implements UserCrudService {
         return new PageImpl<>(page.getContent()
                 .stream()
                 .map(user -> userAssembler.mapToDTO(user, new UserDTO()))
-                .collect(Collectors.toList()),
+                .toList(),
                 pageable, page.getTotalElements());
     }
 

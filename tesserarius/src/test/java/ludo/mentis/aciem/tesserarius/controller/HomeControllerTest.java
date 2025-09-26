@@ -2,6 +2,7 @@ package ludo.mentis.aciem.tesserarius.controller;
 
 import ludo.mentis.aciem.commons.security.service.OAuthService;
 import ludo.mentis.aciem.tesserarius.client.EmailClient;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,10 +30,17 @@ class HomeControllerTest {
     @InjectMocks
     private HomeController homeController;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

@@ -1,6 +1,7 @@
 package ludo.mentis.aciem.tabellarius.service;
 
 import ludo.mentis.aciem.tabellarius.domain.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -24,9 +25,16 @@ class SendMailServiceImplTest {
     @InjectMocks
     private SendMailServiceImpl sendMailService;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
+        closeable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

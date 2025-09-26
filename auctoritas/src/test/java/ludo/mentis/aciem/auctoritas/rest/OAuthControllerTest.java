@@ -2,6 +2,7 @@ package ludo.mentis.aciem.auctoritas.rest;
 
 import com.nimbusds.jose.JOSEException;
 import ludo.mentis.aciem.auctoritas.service.AuthService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 
+import java.io.Serial;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,10 +24,17 @@ class OAuthControllerTest {
 
     private OAuthController oAuthController;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         oAuthController = new OAuthController(authService);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test
@@ -48,7 +57,8 @@ class OAuthControllerTest {
         var password = "wrongPassword";
 
         when(authService.generateToken(username, password)).thenThrow(new AuthenticationException("Invalid credentials") {
-			private static final long serialVersionUID = -6953072405467697797L;
+            @Serial
+            private static final long serialVersionUID = -6953072405467697797L;
 		});
 
         ResponseEntity<Map<String, String>> response = oAuthController.generateToken(username, password);

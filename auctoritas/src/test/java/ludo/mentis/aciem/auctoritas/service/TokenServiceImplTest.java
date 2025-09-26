@@ -2,6 +2,7 @@ package ludo.mentis.aciem.auctoritas.service;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.SignedJWT;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -9,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -19,18 +19,23 @@ class TokenServiceImplTest {
 
     private TokenServiceImpl tokenService;
 
-    private PublicKey publicKey;
+    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() throws NoSuchAlgorithmException {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
 
         final var keyPair = getKeyPair();
 
-        publicKey = keyPair.getPublic();
+        final var publicKey = keyPair.getPublic();
 
         tokenService = new TokenServiceImpl(keyPair.getPrivate(), publicKey);
         tokenService.expirationSeconds = 36000; // 10 hours
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

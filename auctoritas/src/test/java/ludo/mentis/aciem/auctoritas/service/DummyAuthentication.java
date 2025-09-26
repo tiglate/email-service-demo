@@ -3,10 +3,12 @@ package ludo.mentis.aciem.auctoritas.service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serial;
 import java.util.Collection;
 
 public class DummyAuthentication implements Authentication {
 
+    @Serial
     private static final long serialVersionUID = -5234212961819195439L;
 
     private final String name;

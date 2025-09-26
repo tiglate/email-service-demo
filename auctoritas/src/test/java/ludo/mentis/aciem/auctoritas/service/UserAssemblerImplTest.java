@@ -7,6 +7,7 @@ import ludo.mentis.aciem.auctoritas.exception.NotFoundException;
 import ludo.mentis.aciem.auctoritas.model.UserDTO;
 import ludo.mentis.aciem.auctoritas.repos.RoleRepository;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -35,10 +36,17 @@ class UserAssemblerImplTest {
     @Mock
     private SoftwareRepository softwareRepository;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         userAssembler = new UserAssemblerImpl(passwordEncoder, roleRepository, softwareRepository);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

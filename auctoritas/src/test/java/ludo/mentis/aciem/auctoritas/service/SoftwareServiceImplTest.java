@@ -7,6 +7,7 @@ import ludo.mentis.aciem.auctoritas.model.SoftwareDTO;
 import ludo.mentis.aciem.auctoritas.repos.SoftwareRepository;
 import ludo.mentis.aciem.auctoritas.repos.UserRepository;
 import ludo.mentis.aciem.commons.web.ReferencedWarning;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -32,10 +33,17 @@ class SoftwareServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
+    private AutoCloseable closeable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
         softwareService = new SoftwareServiceImpl(softwareRepository, userRepository);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close(); // Release resources
     }
 
     @Test

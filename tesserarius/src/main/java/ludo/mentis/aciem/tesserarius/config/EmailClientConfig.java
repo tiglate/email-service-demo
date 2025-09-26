@@ -45,7 +45,7 @@ public class EmailClientConfig {
 
     String getBearerToken() {
         return tokenCache.get("token", key -> {
-            SignedJWT response = null;
+            SignedJWT response;
             try {
                 response = oauthService.getToken(username, password);
                 return "Bearer " + response.serialize();
