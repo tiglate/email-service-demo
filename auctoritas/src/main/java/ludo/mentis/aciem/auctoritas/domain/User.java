@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @Column
+    @Column(columnDefinition = "datetime2")
     private OffsetDateTime accountExpirationDate;
 
     @Column(nullable = false)
