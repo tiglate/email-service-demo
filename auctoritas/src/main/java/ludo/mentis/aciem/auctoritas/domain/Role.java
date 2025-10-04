@@ -21,15 +21,15 @@ public class Role {
     @Column(name = "role", nullable = false, unique = true)
     private String code;
 
-    @Column(columnDefinition = "varchar(max)")
+    @Column(columnDefinition = "text")
     private String description;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false, columnDefinition = "datetime2")
+    @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;
 
     @LastModifiedDate
-    @Column(nullable = false, columnDefinition = "datetime2")
+    @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
     public Integer getId() {

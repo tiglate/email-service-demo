@@ -25,12 +25,20 @@ public class Software {
     private String name;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false, columnDefinition = "datetime2")
+    @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;
 
     @LastModifiedDate
-    @Column(nullable = false, columnDefinition = "datetime2")
+    @Column(nullable = false)
     private OffsetDateTime lastUpdated;
+
+    public Software() {
+    }
+
+    public Software(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
     public Integer getId() {
         return this.id;

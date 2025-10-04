@@ -28,13 +28,13 @@ public class User {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @Column(columnDefinition = "datetime2")
+    @Column
     private OffsetDateTime accountExpirationDate;
 
     @Column(nullable = false)
     private int failedLoginAttempts = 0;
 
-    @Column(columnDefinition = "datetime2")
+    @Column
     private OffsetDateTime lastFailedLoginAttempt;
 
     @Column(nullable = false)
@@ -53,11 +53,11 @@ public class User {
     private Software software;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false, columnDefinition = "datetime2")
+    @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;
 
     @LastModifiedDate
-    @Column(nullable = false, columnDefinition = "datetime2")
+    @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
     public Integer getId() {
