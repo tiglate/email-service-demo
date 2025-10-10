@@ -10,7 +10,7 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /opt/app/tesserarius.jar
 
 WORKDIR /opt/app
-EXPOSE 8082
+EXPOSE 8083
 
 ENTRYPOINT ["java", "-jar", "tesserarius.jar"]
 

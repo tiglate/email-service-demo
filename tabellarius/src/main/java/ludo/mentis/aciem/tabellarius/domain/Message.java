@@ -27,7 +27,7 @@ public class Message {
     @Column(name = "message_subject", nullable = false)
     private String subject;
 
-    @Column(name = "body", columnDefinition = "varchar(MAX)")
+    @Column(name = "body")
     private String body;
 
     @Enumerated(EnumType.STRING)

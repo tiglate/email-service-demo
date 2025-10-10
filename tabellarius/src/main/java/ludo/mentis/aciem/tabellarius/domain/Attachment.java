@@ -15,7 +15,7 @@ public class Attachment {
     @JoinColumn(name = "id_message", nullable = false)
     private Message message;
 
-    @Column(name = "attachment", nullable = false, columnDefinition = "varbinary(MAX)")
+    @Column(name = "attachment", nullable = false)
     private byte[] data;
 
     @Column(name = "file_name", nullable = false)

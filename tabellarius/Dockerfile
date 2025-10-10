@@ -10,7 +10,7 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /opt/app/tabellarius.jar
 
 WORKDIR /opt/app
-EXPOSE 8080
+EXPOSE 8082
 
 ENTRYPOINT ["java", "-jar", "tabellarius.jar"]
 

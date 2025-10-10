@@ -10,7 +10,7 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /opt/app/auctoritas.jar
 
 WORKDIR /opt/app
-EXPOSE 9000
+EXPOSE 8081
 
 ENTRYPOINT ["java", "-jar", "auctoritas.jar"]
 
