@@ -34,4 +34,3 @@ build/
 
 # Ignore environment files
 .env
-init-scripts/
