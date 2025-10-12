@@ -1,0 +1,81 @@
+volumes:
+  db_data:
+  mail_data:
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD}
+    ports:
+      - "5433:5432"
+
+  matzati:
+    build: ./matzati
+    ports:
+      - "8761:8761"
+
+  auctoritas:
+    build: ./auctoritas
+    environment:
+      JDBC_DATABASE_HOST: db
+      JDBC_DATABASE_USERNAME: ${AUCTORITAS_JDBC_DATABASE_USERNAME}
+      JDBC_DATABASE_PASSWORD: ${AUCTORITAS_JDBC_DATABASE_PASSWORD}
+      JDBC_DATABASE_DB: ${AUCTORITAS_JDBC_DATABASE_DB}
+      EUREKA_URI: http://matzati:8761/eureka
+      REMEMBER_ME_KEY: ${AUCTORITAS_REMEMBER_ME_KEY}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - matzati
+
+  fakesmtp:
+    image: munkyboy/fakesmtp:latest
+    volumes:
+      - mail_data:/var/mail
+    ports:
+      - "2525:25"
+
+  tabellarius:
+    build: ./tabellarius
+    environment:
+      JDBC_DATABASE_HOST: db
+      JDBC_DATABASE_USERNAME: ${TABELLARIUS_JDBC_DATABASE_USERNAME}
+      JDBC_DATABASE_PASSWORD: ${TABELLARIUS_JDBC_DATABASE_PASSWORD}
+      JDBC_DATABASE_DB: ${TABELLARIUS_JDBC_DATABASE_DB}
+      EUREKA_URI: http://matzati:8761/eureka
+      SMTP_HOST: fakesmtp
+      SMTP_PORT: 25
+      SMTP_USERNAME: ${TABELLARIUS_SMTP_USERNAME}
+      SMTP_PASSWORD: ${TABELLARIUS_SMTP_PASSWORD}
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - matzati
+      - fakesmtp
+      - auctoritas
+
+  tesserarius:
+    build: ./tesserarius
+    environment:
+      EUREKA_URI: http://matzati:8761/eureka
+      TABELLARIUS_SERVICE_USERNAME: ${TESSERARIUS_TABELLARIUS_SERVICE_USERNAME}
+      TABELLARIUS_SERVICE_PASSWORD: ${TESSERARIUS_TABELLARIUS_SERVICE_PASSWORD}
+    ports:
+      - "8083:8083"
+    depends_on:
+      - matzati
+      - tabellarius
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
